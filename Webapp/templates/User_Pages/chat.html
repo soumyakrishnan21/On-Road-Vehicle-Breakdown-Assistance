@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+    <style>
+        #chat-log {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            max-height: 500px;
+            overflow-y: scroll;
+        }
+
+        .message {
+            display: inline-block;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 10px;
+            max-width: 60%;
+        }
+
+        .incoming {
+            background-color: #e5e5ea;
+            align-self: flex-start;
+        }
+
+        .outgoing {
+            background-color: #007aff;
+            color: white;
+            align-self: flex-end;
+        }
+
+        #chat-message-form {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        #chat-message-input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #007aff;
+            color: white;
+            cursor: pointer;
+        }
+
+        #notification-popup {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007aff;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-log">
+    {% for message in messages %}
+        <div class="message {% if message.sender_id == currentUserId %}outgoing{% else %}incoming{% endif %}" data-timestamp="{{ message.timestamp|date:"c" }}">
+            <strong></strong>{{ message.message }}
+<!--            <br>-->
+<!--            {% if message.sender_id == currentUserId %}-->
+<!--                Sent at: <span class="timestamp">{{ message.timestamp|date:"Y-m-d H:i:s" }}</span>-->
+<!--            {% else %}-->
+<!--                Received at: <span class="timestamp">{{ message.timestamp|date:"Y-m-d H:i:s" }}</span>-->
+<!--            {% endif %}-->
+        </div>
+    {% endfor %}
+</div>
+
+    <form id="chat-message-form">
+        <input type="text" id="chat-message-input" autocomplete="off" placeholder="Type a message...">
+        <button type="button" id="chat-message-submit">Send</button>
+    </form>
+    <div id="notification-popup"></div>
+
+    <script>document.addEventListener('DOMContentLoaded', function() {
+    const roomName = "{{ room_name }}";
+    const token = '{{ token }}';
+    const currentUserId = "{{ currentUserId }}";
+    const currentUserType = "{{ currentUserType }}";
+    let lastSentMessage = '';
+
+    // Initialize WebSocket for chat messages
+    const chatSocket = new WebSocket(`ws://localhost:8000/ws/chat/${roomName}/?token=${token}`);
+
+    chatSocket.onopen = function() {
+        console.log('WebSocket connection established for chat.');
+    };
+
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+
+        // Only render the message if it's not the last sent message by the current user
+        if (!(data.sender_id == currentUserId && data.message === lastSentMessage)) {
+            appendMessage(data.sender_type, data.message, data.timestamp, data.sender_id);
+
+            // Check if the user is not on the chat page and show a notification
+            if (!window.location.pathname.includes('/Webapp/user/chat/')) {
+                // Request notification permission if not granted
+                if (Notification.permission !== 'granted') {
+                    Notification.requestPermission().then(permission => {
+                        if (permission === 'granted') {
+                            showNotification('New Message', data.message);
+                        }
+                    });
+                } else {
+                    showNotification('New Message', data.message);
+                }
+            }
+        }
+
+        // Clear the last sent message after receiving a message
+        if (data.sender_id == currentUserId) {
+            lastSentMessage = '';
+        }
+    };
+
+    chatSocket.onerror = function(e) {
+        console.error('WebSocket error:', e);
+    };
+
+    chatSocket.onclose = function(e) {
+        console.error('WebSocket connection closed unexpectedly:', e);
+    };
+
+    document.querySelector('#chat-message-input').focus();
+    document.querySelector('#chat-message-input').onkeyup = function(e) {
+        if (e.keyCode === 13) {
+            document.querySelector('#chat-message-submit').click();
+        }
+    };
+
+    document.querySelector('#chat-message-submit').onclick = function() {
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message = messageInputDom.value;
+        if (message.trim()) {
+            // Create and display the outgoing message immediately
+            const timestamp = new Date().toISOString();
+            appendMessage(currentUserType, message, timestamp, currentUserId);
+
+            // Save the last sent message
+            lastSentMessage = message;
+
+            // Send the message to the server
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'sender_id': currentUserId,
+                'sender_type': currentUserType,
+                'timestamp': timestamp
+            }));
+
+            // Clear the input field
+            messageInputDom.value = '';
+        }
+    };
+
+    function appendMessage(senderType, content, utcTimestamp, senderId) {
+        const messageElement = document.createElement('div');
+        const messageClass = senderId == currentUserId ? 'outgoing' : 'incoming';
+        messageElement.classList.add('message', messageClass);
+        messageElement.setAttribute('data-timestamp', utcTimestamp);
+                                                messageElement.innerHTML = `${content}`;
+
+        document.querySelector('#chat-log').appendChild(messageElement);
+
+        // Scroll to the bottom of the chat log
+        const chatLog = document.querySelector('#chat-log');
+        chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    function convertUTCToLocal(utcDateString) {
+        const utcDate = new Date(utcDateString);
+        return utcDate.toLocaleString();  // Converts to local time
+    }
+
+     function handleNotification(title, message) {
+    if (Notification.permission === 'granted') {
+        showNotification(title, message);
+    } else if (Notification.permission === 'default') {
+        Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+                showNotification(title, message);
+            } else {
+                console.log('Notification permission denied.');
+            }
+        }).catch(error => {
+            console.error('Error requesting notification permission:', error);
+        });
+    } else {
+        console.log('Notification permission has been denied previously.');
+    }
+}
+
+function showNotification(title, message) {
+    if (Notification.permission === 'granted') {
+        new Notification(title, {
+            body: message,
+            icon: 'icon.png' // Optional
+        });
+    } else if (Notification.permission === 'default') {
+        Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+                new Notification(title, {
+                    body: message,
+                    icon: 'icon.png' // Optional
+                });
+            }
+        });
+    }
+}
+
+
+    // Convert existing timestamps on page load
+    const timestampElements = document.querySelectorAll('.timestamp');
+    timestampElements.forEach(function(element) {
+        const utcTime = element.closest('.message').getAttribute('data-timestamp');
+        element.textContent = convertUTCToLocal(utcTime);
+    });
+});
+</script>
+    <script src="{% static 'notification.js' %}"></script>
+</body>
+</html>

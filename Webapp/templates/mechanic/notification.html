@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="notification-container"></div>
+    <script>
+        function showNotification(message) {
+            var notification = document.createElement('div');
+            notification.classList.add('notification');
+            notification.textContent = message;
+            document.getElementById('notification-container').appendChild(notification);
+            setTimeout(function() {
+                notification.style.display = 'none';
+            }, 3000); // Hide notification after 3 seconds
+        }
+    </script>
+<script>
+    function acceptRequest(requestId) {
+    fetch(`/accept/${requestId}/`, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        showNotification(data.message);
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function rejectRequest(requestId) {
+    fetch(`/reject/${requestId}/`, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        showNotification(data.message);
+    })
+    .catch(error => console.error('Error:', error));
+}
+</script>
+</body>
+</html>

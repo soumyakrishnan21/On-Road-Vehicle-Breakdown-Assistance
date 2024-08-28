@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+{%load static%}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Main CSS-->
+    <link rel="stylesheet" type="text/css" href="{% static 'service_center/css/main.css' %}">
+    <!-- Font-icon css-->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+      <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
+
+      <title>Register-Service Center</title>
+      <style>
+        #map {
+            height: 400px;
+            margin-left:400px;
+            position:relative
+        }
+    </style>
+  </head>
+  <body>
+
+    <section class="material-half-bg">
+      <div class="cover"></div>
+    </section>
+    <section class="login-content">
+      <div class="logo">
+        <h1>Service Center</h1>
+      </div>
+      <div class="login-box" style="height:1400px;width:600px">
+        <form class="login-form" action="{%url 'service_reg' %}" method="post" enctype="multipart/form-data">
+            {%csrf_token%}
+          <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>SIGN UP</h3>
+          <div class="form-group">
+            <label class="control-label">Business Name</label>
+            <input class="form-control" type="text" placeholder="Business Name" name="bname" autofocus required>
+          </div>
+             <div class="form-group">
+            <label class="control-label">Contact Person Name</label>
+            <input class="form-control" type="text" placeholder="Contact Person Name" name="cname" autofocus required>
+          </div>
+            <div class="form-group">
+            <label class="control-label">Address</label>
+              <textarea name="address" class="form-control" placeholder="Address" autofocus id="address" required></textarea>
+          </div>
+            <div class="form-group">
+            <label class="control-label">City</label>
+            <input class="form-control" type="text" placeholder="City" name="city" autofocus required>
+          </div>
+            <div class="form-group">
+            <label class="control-label">State</label>
+            <input class="form-control" type="text" placeholder="State" name="state" autofocus required>
+          </div>
+            <div class="form-group">
+            <label class="control-label">PIN Number</label>
+            <input class="form-control" type="number" placeholder="PIN Number" autofocus name="pin" required pattern="[0-9]{6}">
+          </div>
+            <div class="form-group">
+<!--            <label class="control-label">Latitude</label>-->
+            <input class="form-control" type="hidden" placeholder="Latitude" autofocus name="lat" value="{{lati}}" id="lat">
+          </div><div class="form-group">
+<!--            <label class="control-label">Longitude</label>-->
+            <input class="form-control" type="hidden" value="{{longi}}" placeholder="Longitude" autofocus name="long" id="long">
+          </div>
+            <div class="form-group">
+            <label class="control-label">Mobile Number</label>
+            <input class="form-control" type="tel" placeholder="Mobile Number" autofocus name="mobile" required pattern="[7-9]{1}[0-9]{9}">
+          </div>
+            <div class="form-group">
+            <label class="control-label">Email Id</label>
+            <input class="form-control" type="email" placeholder="Email" autofocus name="email" required>
+          </div>
+             <div class="form-group">
+            <label class="control-label">Description</label>
+            <input class="form-control" type="text" placeholder="Description" autofocus name="Description" required>
+          </div>
+            <div class="form-group">
+            <label class="control-label">Operating Hours</label>
+            <input class="form-control" type="text" placeholder="Operating Hours" autofocus name="hour" required>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Picture</label>
+            <input class="form-control" type="file" placeholder="Picture" autofocus name="pic" required>
+          </div>
+            <div class="form-group">
+            <label class="control-label">Username</label>
+            <input class="form-control" type="text" placeholder="Username" autofocus name="uname" required>
+          </div>
+          <div class="form-group">
+            <label class="control-label">Password</label>
+            <input class="form-control" type="password" placeholder="Password" name="password" required>
+          </div>
+          <div class="form-group">
+            <div class="utility">
+
+<!--              <p class="semibold-text mb-2"><a href="#" data-toggle="flip">Forgot Password ?</a></p>-->
+            </div>
+          </div>
+          <div class="form-group btn-container">
+            <button class="btn btn-primary btn-block"><i class="fa fa-sign-in fa-lg fa-fw"></i>SIGN UP</button>
+          </div>
+            <div style="margin-top:50px">
+ <a href="{%url 'service_login'%}"><h5 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>Already have an account? Sign In</h5></a>
+
+            </div>
+
+        </form>
+
+              <div id="map"></div>
+
+      </div>
+
+    </section>
+    <!-- Essential javascripts for application to work-->
+    <script src="{% static 'service_center/js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'service_center/js/popper.min.js' %}"></script>
+    <script src="{% static 'service_center/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'service_center/js/main.js' %}"></script>
+    <!-- The javascript plugin to display page loading on top-->
+    <script src="{% static 'service_center/js/plugins/pace.min.js' %}"></script>
+    <script type="text/javascript">
+      // Login Page Flipbox control
+      $('.login-content [data-toggle="flip"]').click(function() {
+      	$('.login-box').toggleClass('flipped');
+      	return false;
+      });
+    </script>
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script>
+        function codeAddress() {
+        var address = document.getElementById("address").value;
+        var geocoder = new google.maps.Geocoder();
+
+        geocoder.geocode( { 'address': address}, function(results, status) {
+          var location = results[0].geometry.location;
+          document.getElementById("lat").value=location.lat()
+          document.getElementById("long").value=location.lng()
+        });
+        }
+        google.maps.event.addDomListener(window, 'load', codeAddress);
+    </script>
+  <script>
+var x = document.getElementById("demo");
+var y = document.getElementById("demo1");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  x.innerHTML = position.coords.latitude;
+  y.innerHTML=position.coords.location;
+  document.getElementById("lat").value=position.coords.latitude;
+  document.getElementById("long").value=position.coords.longitude;
+
+}
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+{%load static%}
+<!-- Coding by CodingLab | www.codinglabweb.com-->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Registration or Sign Up form in HTML CSS | CodingLab </title>
+    <link rel="stylesheet" href="{% static 'user/style.css' %}">
+   </head>
+<body style="width:100%;background:url(https://raw.githubusercontent.com/khadkamhn/day-01-login-form/master/img/bg.jpg) no-repeat center;background-attachment: fixed;
+  background-size: cover;">
+<!--<div style="width:100%;background:url(https://raw.githubusercontent.com/khadkamhn/day-01-login-form/master/img/bg.jpg) no-repeat center;"></div>-->
+<div class="wrapper" style="background:blur">
+    <h2>Registration</h2>
+    <form action="{%url 'save_userdata' %}" method="post">
+        {%csrf_token%}
+      <div class="input-box">
+        <input type="text" placeholder="Enter your name" required name="name">
+      </div>
+      <div class="input-box">
+        <input type="email" placeholder="Enter your email" required name="email">
+      </div>
+
+      <div class="input-box">
+        <input type="tel" placeholder="Enter your Mobile Number" required name="mobile">
+      </div>
+
+        <input type="hidden" placeholder="Enter your Mobile Number" required name="lat" value="{{lat}}">
+
+
+        <input type="hidden" placeholder="Enter your Mobile Number" required name="long" value="{{long}}">
+
+        <input type="hidden" placeholder="Enter your Mobile Number" required name="location" value="{{loc}}">
+      <div class="input-box">
+        <input type="password" placeholder="Create password" required name="password">
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Confirm password" required name="cpassword">
+      </div>
+
+      <div class="input-box button">
+        <input type="Submit" value="Register Now">
+      </div>
+      <div class="text">
+        <h3>Already have an account? <a href="{%url 'loginuser' %}">Login now</a></h3>
+      </div>
+    </form>
+  </div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+{% if messages %}
+    {% for i in messages %}
+        {%if i.tags == 'warning' %}
+            <script>
+                swal('{{i}}','','warning');
+            </script>
+        {% elif i.tags == 'error' %}
+            <script>
+                swal('{{i}}','','error');
+            </script>
+        {% elif i.tags == 'info' %}
+            <script>
+                swal('{{i}}','','info');
+            </script>
+        {% else %}
+            <script>
+                swal('{{i}}','','success');
+            </script>
+        {%endif%}
+    {%endfor%}
+{%endif%}
+
+</body>
+</html>

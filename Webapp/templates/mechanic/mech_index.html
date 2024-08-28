@@ -1,0 +1,661 @@
+
+<!DOCTYPE html>
+{%load static%}
+<html lang="en">
+  <head>
+    <title>Mechanic</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'user/css/open-iconic-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/animate.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/magnific-popup.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/aos.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/ionicons.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/bootstrap-datepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/jquery.timepicker.css' %}">
+
+
+    <link rel="stylesheet" href="{% static 'user/css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/icomoon.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/style.css' %}">
+	      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+	  <style>
+.containerimg {
+  position: relative;
+  width: 50%;
+}
+
+.imagehover {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.containerimg:hover .imagehover {
+  opacity: 0.3;
+}
+
+.containerimg:hover .middle {
+  opacity: 1;
+}
+
+.textimg {
+  background-color: #04AA6D;
+  color: white;
+  font-size: 16px;
+  padding: 16px 32px;
+  width:200px;
+  margin-left:200px
+}
+</style>
+  </head>
+  <body style="width:100%">
+	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="navbar">
+	    <div class="container">
+	      <a class="navbar-brand" href="index.html">GET<span>ME HELP</span></a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> Menu
+	      </button>
+
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item active"><a href="{%url 'mech_home' %}" class="nav-link">Home</a></li>
+	          <li class="nav-item"><a href="{%url 'view_request_from_user'%}" class="nav-link">Requests</a></li>
+<!--	          <li class="nav-item"><a href="{%url 'add_service' %}" class="nav-link">Service</a></li>-->
+	          <li class="nav-item"><a href="{% url 'view_accessories_mech' %}" class="nav-link">Accessories</a></li>
+<!--	          <li class="nav-item"><a href="{%url 'send_feedback' %}" class="nav-link">Contact</a></li>-->
+<!--								{% if request.session.Mechname %}-->
+<!--			<li class="nav-item"><a class="nav-link" href="{%url 'mechlogout'%}">{{ request.session.Mechname }}/Logout</a></li>-->
+<!--								{% else %}-->
+<!--			<li class="nav-item"><a class="nav-link" href="{%url 'mechlogin'%}">Register/Login</a></li>-->
+<!--								{% endif %}-->
+               <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+{{ request.session.Mechname }} Logout                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        {% if request.session.Mechname %}
+                            <a class="dropdown-item" href="{% url 'mechlogout' %}">Logout</a>
+                            <a class="dropdown-item" href="{% url 'view_profile_mech'  %}">Profile</a>
+                        {% else %}
+                            <a class="dropdown-item" href="{% url 'mechlogin' %}">Mechanic Login</a>
+                        {% endif %}
+                    </div>
+                </li>
+                        {% if request.session.Mechname %}
+
+		<li class="nav-item"><a href="{%url 'mechcartpage' %}" class="nav-link">Cart</a></li>
+            {%else%}
+            <li></li>{%endif%}</ul>
+	      </div>
+	    </div>
+	  </nav>
+
+    <!-- END nav -->
+
+    <div class="hero-wrap" style="background-image: url({% static 'bg3.jpg' %});" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text justify-content-start align-items-center">
+          <div class="col-lg-6 col-md-6 ftco-animate d-flex align-items-end">
+          	<div class="text">
+	            <h1 class="mb-4">Vehicle Breakdown Services,  <span> Anywhere</span> <span>Anytime</span></h1>
+<!--	            <p style="font-size: 18px;">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts</p>-->
+	            <a href="{%url 'userlogin'%}" class="icon-wrap d-flex align-items-center mt-4">
+<!--	            	<div class="icon d-flex align-items-center justify-content-center">-->
+<!--	            		<span class="ion-ios-play"></span>-->
+<!--	            	</div>-->
+<!--	            	<div class="heading-title ml-5">-->
+<!--&lt;!&ndash;		            	<span>Let's Start from Here</span>&ndash;&gt;-->
+<!--	            	</div>-->
+	            </a>
+            </div>
+          </div>
+          <div class="col-lg-2 col"></div>
+          <div class="col-lg-4 col-md-6 mt-0 mt-md-5 d-flex">
+          	<form action="{%url 'view_request_from_user' %}" class="request-form ftco-animate">
+          		<h2>Make your trip safe </h2>
+<!--	    				<div class="form-group">-->
+<!--	    					<label for="" class="label">Choose Your location</label>-->
+<!--	    					<input type="text" class="form-control" placeholder="Search here">-->
+<!--	    				</div>-->
+	            <div class="form-group">
+	              <input type="submit" value="Lets Help Drivers" class="btn btn-primary py-3 px-4">
+	            </div>
+	    			</form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="ftco-section ftco-no-pb ftco-no-pt">
+    	<div class="container">
+	    	<div class="row">
+					<div class="col-md-12">
+						<div class="search-wrap-1 ftco-animate mb-5">
+
+		        </div>
+					</div>
+	    	</div>
+	    </div>
+    </section>
+
+    <section class="ftco-section services-section ftco-no-pt ftco-no-pb">
+      <div class="container">
+      	<div class="row justify-content-center">
+          <div class="col-md-12 heading-section text-center ftco-animate mb-5">
+          	<span class="subheading">Book Your Vehicle ServiceNow</span>
+            <h2 class="mb-2">Choose  Service Centre</h2>
+          </div>
+        </div>
+        <div class="row d-flex">
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate" style="margin-left:-100px;margin-right:100px">
+            <div class="media block-6 services">
+              <div class="media-body py-md-4" style="margin-left:50px">
+				  <div class="containerimg">
+  <img src="{% static 'service_center/1.jpeg' %}" alt="Avatar" class="imagehover" style="width:500px;height:350px">
+  <div class="middle">
+    <div class="textimg">Best Service Centers For You 24/7 Service</div>
+  </div>
+</div>
+              	<div class="d-flex mb-3 align-items-center">
+	              	<div class="icon"></div>
+	                <h3 class="heading mb-0 pl-3"> </h3>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate" >
+            <div class="media block-6 services" >
+              <div class="media-body py-md-4" style="margin-left:100px">
+              	<div class="d-flex mb-3 align-items-center">
+	              	<div style="margin-left:-100px">
+					<h4>Search for Nearby Service centers</h4>
+						<h5>Here are the best Service Centers for your Vehicle.
+</h5><p style="margin-top:20px">Welcome to our vehicle service center search platform, where finding the right automotive care is effortless.
+                        Whether you're in need of routine maintenance, repairs, or specialized services, our comprehensive
+                        directory connects you with trusted providers in your area. From certified mechanics to state-of-the-art
+                        facilities, we ensure quality and reliability, so you can drive with confidence. Simplify your vehicle maintenance
+                        journey today with our user-friendly search tools and discover top-rated service centers committed to keeping your
+                        car running smoothly.
+
+
+
+</p>
+					</div>
+<!--	                <h3 class="heading mb-0 pl-3">Lots of location</h3>-->
+
+                </div>
+				<div class="col-md-12">
+						<div class="search-wrap-1 ftco-animate mb-5">
+							<form action="{%url 'search_nearest_locations_service' %}" method="GET" class="search-property-1">
+		        		<div class="row" style="text-align:center">
+
+
+									        			<div class="col-lg align-items">
+		        				<div class="form-group">
+<!--		        					<label for="#">Current Longitude</label>-->
+		        					<div class="form-field">
+		          					<div class="select-wrap">
+		                      <div class="icon"></div>
+										<input type="hidden" name="lat" class="form-control" id="demo3" placeholder="Type location" value="{{lat}}">
+										<input type="hidden" name="lng" class="form-control" id="demo3" placeholder="Type location" value="{{long}}">
+        <input hidden="hidden" type="range" id="radius" name="radius" min="1" max="50" value="10" oninput="updateRadiusValue(this.value)">
+
+
+		                    </div>
+				              </div>
+			              </div>
+		        			</div>
+
+
+							<div class="col-lg" style="margin-left:-350px;margin-top:-50px">
+		        				<div class="form-group" style="margin-left:-200px">
+		        					<div class="form-field">
+				                <input type="submit" style="width:200px;margin-left:40px" value="Search Now" class="form-control btn">
+				              </div>
+			              </div>
+		        			</div>
+		        		</div>
+		        	</form>
+		        </div>
+					</div>
+
+              </div>
+            </div>
+          </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="ftco-section services-section ftco-no-pt ftco-no-pb">
+      <div class="container">
+      	<div class="row justify-content-center">
+          <div class="col-md-12 heading-section text-center ftco-animate mb-5">
+          	<span class="subheading">Our Services</span>
+            <h2 class="mb-2">Our Services</h2>
+          </div>
+        </div>
+        <div class="row d-flex">
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services">
+              <div class="media-body py-md-4">
+              	<div class="d-flex mb-3 align-items-center">
+	              	<div class="icon"><span class="flaticon-customer-support"></span></div>
+	                <h3 class="heading mb-0 pl-3">24/7 Vehicle Support</h3>
+                </div>
+                <p>Providing continuous assistance and maintenance for vehicles around the clock,
+                    ensuring drivers have access to help whenever they encounter issues or breakdowns.
+                    </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services">
+              <div class="media-body py-md-4">
+              	<div class="d-flex mb-3 align-items-center">
+	              	<div class="icon"><span class="flaticon-online-booking"></span></div>
+	                <h3 class="heading mb-0 pl-3">Reservation</h3>
+                </div>
+                <p>Scheduling or booking appointments for maintenance, repairs, or other services offered by service centers.
+					Customers can reserve a specific time slot to bring their vehicles in for services.</p>
+              </div>
+            </div>
+          </div>
+<!--          <div class="col-md-3 d-flex align-self-stretch ftco-animate">-->
+<!--            <div class="media block-6 services">-->
+<!--              <div class="media-body py-md-4">-->
+<!--              	<div class="d-flex mb-3 align-items-center">-->
+<!--	              	<div class="icon"><span class="flaticon-rent"></span></div>-->
+<!--	                <h3 class="heading mb-0 pl-3">Roadside Repair Services</h3>-->
+<!--                </div>-->
+<!--                <p>On-the-spot repairs for common issues like battery replacements, flat tires, and minor mechanical repairs.</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+			          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services">
+              <div class="media-body py-md-4">
+              	<div class="d-flex mb-3 align-items-center">
+	              	<div class="icon"><span class="flaticon-rent"></span></div>
+	                <h3 class="heading mb-0 pl-3">Jump-Start Services</h3>
+                </div>
+                <p>On-the-spot repairs for common issues like battery replacements, flat tires, and minor mechanical repairsAssistance with jump-starting a vehicle with a dead battery.</p>
+              </div>
+            </div>
+          </div>
+						          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services">
+              <div class="media-body py-md-4">
+              	<div class="d-flex mb-3 align-items-center">
+	              	<div class="icon"><span class="flaticon-rent"></span></div>
+	                <h3 class="heading mb-0 pl-3">Multi-Vehicle Coverage</h3>
+                </div>
+                <p>Assistance provided for various types of vehicles, including cars, motorcycles, RVs, and trucks.</p>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </section>
+
+    <section class="ftco-section services-section img" style="background-image: url({% static 'user/images/bg_2.jpg' %});">
+    	<div class="overlay"></div>
+    	<div class="container">
+    		<div class="row justify-content-center mb-5">
+          <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
+          	<span class="subheading">Work flow</span>
+            <h2 class="mb-3">How it works</h2>
+          </div>
+        </div>
+    		<div class="row">
+    			<div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services services-2">
+              <div class="media-body py-md-4 text-center">
+              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-route"></span></div>
+                <h3>Search from where you are</h3>
+                <p>Open ORVBA website and search for Mechanic by clicking "Get Started"</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services services-2">
+              <div class="media-body py-md-4 text-center">
+              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-select"></span></div>
+                <h3>Register/Login</h3>
+                <p>If you are already registered just login,if you are not registered ,register first to login</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services services-2">
+              <div class="media-body py-md-4 text-center">
+              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-rent"></span></div>
+                <h3>Choose A Mechanic</h3>
+                <p>Based on your vehicle choose the mechanic you want and send request</p>
+              </div>
+            </div>
+          </div>
+<!--          <div class="col-md-3 d-flex align-self-stretch ftco-animate">-->
+<!--            <div class="media block-6 services services-2">-->
+<!--              <div class="media-body py-md-4 text-center">-->
+<!--              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-review"></span></div>-->
+<!--                <h3>Send Request</h3>-->
+<!--                <p>Send request to the mechanic and contact tem if you want</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+				          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services services-2">
+              <div class="media-body py-md-4 text-center">
+              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-review"></span></div>
+                <h3>Mechanics are near you,have a safe journey</h3>
+                <p>Mechanic will accept/reject request and come to do the work.</p>
+              </div>
+            </div>
+          </div>
+
+    		</div>
+    	</div>
+    </section>
+
+
+    <section class="ftco-section testimony-section">
+      <div class="container">
+        <div class="row justify-content-center mb-5">
+          <div class="col-md-7 text-center heading-section ftco-animate">
+          	<span class="subheading">Testimonial</span>
+            <h2 class="mb-3">Happy Clients</h2>
+          </div>
+        </div>
+        <div class="row ftco-animate">
+          <div class="col-md-12">
+            <div class="carousel-testimony owl-carousel ftco-owl">
+                                                  {%for i in data%}
+
+              <div class="item">
+                <div class="testimony-wrap text-center py-4 pb-5">
+
+                  <div class="text pt-4">
+                    <p class="mb-4" style=" .break-word {word-break: break-all;}">{{i.message}}</p>
+                    <p class="name">{{i.name}}</p>
+<!--                    <span class="position">Marketing Manager</span>-->
+                  </div>
+                </div>
+
+              </div>
+                                                  {%endfor%}
+
+<!--              <div class="item">-->
+<!--                <div class="testimony-wrap text-center py-4 pb-5">-->
+<!--                  <div class="user-img mb-4" style="background-image: url(images/person_2.jpg)">-->
+<!--                  </div>-->
+<!--                  <div class="text pt-4">-->
+<!--                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>-->
+<!--                    <p class="name">Roger Scott</p>-->
+<!--                    <span class="position">Interface Designer</span>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="item">-->
+<!--                <div class="testimony-wrap text-center py-4 pb-5">-->
+<!--                  <div class="user-img mb-4" style="background-image: url(images/person_3.jpg)">-->
+<!--                  </div>-->
+<!--                  <div class="text pt-4">-->
+<!--                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>-->
+<!--                    <p class="name">Roger Scott</p>-->
+<!--                    <span class="position">UI Designer</span>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="item">-->
+<!--                <div class="testimony-wrap text-center py-4 pb-5">-->
+<!--                  <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">-->
+<!--                  </div>-->
+<!--                  <div class="text pt-4">-->
+<!--                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>-->
+<!--                    <p class="name">Roger Scott</p>-->
+<!--                    <span class="position">Web Developer</span>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="item">-->
+<!--                <div class="testimony-wrap text-center py-4 pb-5">-->
+<!--                  <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">-->
+<!--                  </div>-->
+<!--                  <div class="text pt-4">-->
+<!--                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>-->
+<!--                    <p class="name">Roger Scott</p>-->
+<!--                    <span class="position">System Analyst</span>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--            </div>-->
+          </div>
+        </div>
+      </div>
+    </section>
+
+		<section class="ftco-section ftco-no-pt ftco-no-pb" style="height:700px">
+			<div class="container">
+				<div class="row no-gutters">
+					<div class="col-md-6 p-md-5 img img-2 d-flex justify-content-center align-items-center" style="background-image: url({% static 'user/images/about.jpg' %});height:600px">
+					</div>
+					<div class="col-md-6 wrap-about py-md-5 ftco-animate">
+	          <div class="heading-section mb-5 pl-md-5">
+	          	<span class="subheading">About us</span>
+	            <h2 class="mb-4">Choose A Mechanic</h2>
+
+	            <p>Welcome to our Vehicle Breakdown Assistance Service, your reliable partner when you need help on the road.
+					Finding a trustworthy mechanic during an unexpected vehicle breakdown can be challenging, but our platform makes it easy.
+					Simply send a request through our user-friendly interface, and our network of certified mechanics will be notified instantly.
+
+
+</p>
+	            <p>They can locate you using your provided coordinates and reach you quickly to get you back on the road. Our mechanics are experienced and certified,
+					ensuring you receive top-notch service whenever you need it. With transparent pricing and a commitment to quality, we aim to make roadside assistance
+					stress-free and efficient. Trust us to be there for you when it matters most.</p>
+	            <p><a href="{%url 'search_nearest_locations' %}" class="btn btn-primary">Search Mechanic</a></p>
+	          </div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+    <footer class="ftco-footer ftco-bg-dark ftco-section">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4">
+              <h2 class="ftco-heading-2">About GET ME HELP</h2>
+              <p>The GET ME HELP aims to provide immediate and efficient roadside support to drivers encountering vehicle malfunctions or emergencies, ensuring timely assistance and enhancing road safety.</p>
+<!--              <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">-->
+<!--                <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>-->
+<!--                <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>-->
+<!--                <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>-->
+<!--              </ul>-->
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4 ml-md-5">
+              <h2 class="ftco-heading-2">Information</h2>
+              <ul class="list-unstyled">
+                <li><a href="{%url 'aboutus'%}" class="py-2 d-block">About</a></li>
+                <li><a href="{%url 'service_page'%}" class="">Services</a></li>
+                <li><a href="{%url 'term_condition' %}" class="py-2 d-block">Term and Conditions</a></li>
+<!--                <li><a href="#" class="py-2 d-block">Best Price Guarantee</a></li>-->
+<!--                <li><a href="#" class="py-2 d-block">Privacy &amp; Cookies Policy</a></li>-->
+              </ul>
+            </div>
+          </div>
+
+                      <div class="col-md">
+            <div class="ftco-footer-widget mb-4 ml-md-5">
+               <h2 class="ftco-heading-2">Customer Support</h2>
+              <ul class="list-unstyled">
+<!--                <li><a href="{%url 'faq_view' %}" class="py-2 d-block">FAQ</a></li>-->
+<!--                <li><a href="#" class="py-2 d-block">Payment Option</a></li>-->
+<!--                <li><a href="#" class="py-2 d-block">Booking Tips</a></li>-->
+                <li><a href="{%url 'how_it_works'%}" class="py-2 d-block">How it works</a></li>
+                <li><a href="{%url 'send_feedback'%}" class="py-2 d-block">Contact Us</a></li>
+              </ul>
+            </div>
+          </div>
+<div class="col-md" >
+             <div class="ftco-footer-widget mb-4 ml-md-5">
+              <h2 class="ftco-heading-2">Have a Questions?</h2>
+            	<div class="block-23 mb-3">
+	              <ul>
+	                <li><span class="icon icon-map-marker"></span><span class="text">Kallar, Rajapuram, Kasaragod, Kerala</span></li>
+	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+91 8139808271</span></a></li>
+	                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@orvba.com</span></a></li>
+	              </ul>
+	            </div>
+            </div>
+          </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+
+            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->ADMIN <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="#" target="_blank">GET ME HELP</a>
+  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+  <script src="{% static 'user/js/jquery.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery-migrate-3.0.1.min.js' %}"></script>
+  <script src="{% static 'user/js/popper.min.js' %}"></script>
+  <script src="{% static 'user/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery.easing.1.3.js' %}"></script>
+  <script src="{% static 'user/js/jquery.waypoints.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery.stellar.min.js' %}"></script>
+  <script src="{% static 'user/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery.magnific-popup.min.js' %}"></script>
+  <script src="{% static 'user/js/aos.js' %}"></script>
+  <script src="{% static 'user/js/jquery.animateNumber.min.js' %}"></script>
+  <script src="{% static 'user/js/bootstrap-datepicker.js' %}"></script>
+  <script src="{% static 'user/js/jquery.timepicker.min.js' %}"></script>
+  <script src="{% static 'user/js/scrollax.min.js' %}"></script>
+<!--  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>-->
+  <script src="{% static 'user/js/google-map.js' %}"></script>
+  <script src="{% static 'user/js/main.js' %}"></script>
+	      <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+ <script>
+var x = document.getElementById("demo");
+var y = document.getElementById("demo1");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  x.innerHTML = position.coords.latitude;
+  y.innerHTML=position.coords.location;
+  document.getElementById("demo2").value=position.coords.latitude;
+  document.getElementById("demo3").value=position.coords.longitude;
+
+}
+    </script>
+  <script>document.addEventListener('DOMContentLoaded', function() {
+    // Retrieve the mechanic ID from your backend or URL parameters
+    const mechanicId = {{mechanic_id}}; // Adjust this if needed
+
+    // Define the WebSocket URL, adjust the path if necessary
+    const ws_scheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    const socket = new WebSocket(`ws://localhost:8000/ws/mechanic/${mechanicId}/`);
+
+    // Function to handle incoming WebSocket messages
+    socket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        if (data.type === 'send_notification') {
+            // Process and display the notification message
+            console.log('Received message:', data.message);
+            displayNotification(data.message);
+        }
+    };
+
+    // Function to handle WebSocket connection opening
+    socket.onopen = function(e) {
+        console.log('WebSocket connection established');
+    };
+
+    // Function to handle WebSocket errors
+    socket.onerror = function(e) {
+        console.error('WebSocket error:', e);
+    };
+
+    // Function to handle WebSocket connection closing
+    socket.onclose = function(e) {
+        console.log('WebSocket connection closed:', e);
+    };
+
+    // Function to send a message through WebSocket
+    function sendMessage(message) {
+        if (socket.readyState === WebSocket.OPEN) {
+            socket.send(JSON.stringify({
+                'message': message
+            }));
+        } else {
+            console.error('WebSocket is not open. Unable to send message.');
+        }
+    }
+
+    // Example function to display notifications (you should implement this according to your needs)
+    function displayNotification(message) {
+        // For example, you might want to display a notification or update the UI
+        alert(message);  // Simple example using alert
+    }
+
+    // Example usage: Sending a message
+    // sendMessage('Hello, server!');
+
+    // Attach event listener to a button or other UI element to send messages
+    document.querySelector('#send-button').addEventListener('click', function() {
+        const messageInput = document.querySelector('#message-input');
+        const message = messageInput.value;
+        sendMessage(message);
+    });
+});
+</script>
+</body>
+</html>

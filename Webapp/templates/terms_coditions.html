@@ -1,0 +1,722 @@
+
+<!DOCTYPE html>
+{%load static%}
+<html lang="en">
+  <head>
+    <title>Terms and conditions</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'user/css/open-iconic-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/animate.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/magnific-popup.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/aos.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/ionicons.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/bootstrap-datepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/jquery.timepicker.css' %}">
+
+
+    <link rel="stylesheet" href="{% static 'user/css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/icomoon.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/style.css' %}">
+	  <style>
+.containerimg {
+  position: relative;
+  width: 50%;
+}
+
+.imagehover {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.containerimg:hover .imagehover {
+  opacity: 0.3;
+}
+
+.containerimg:hover .middle {
+  opacity: 1;
+}
+
+.textimg {
+  background-color: #04AA6D;
+  color: white;
+  font-size: 16px;
+  padding: 16px 32px;
+  width:200px;
+  margin-left:200px
+}
+</style>
+  </head>
+  <body style="width:100%">
+
+	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+	    <div class="container">
+	      <a class="navbar-brand" href="index.html">GET<span>ME HELP</span></a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> Menu
+	      </button>
+
+{% if request.session.Username %}
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item active"><a href="{%url 'indexpage' %}" class="nav-link">Home</a></li>
+	          <li class="nav-item"><a href="{%url 'aboutus'%}" class="nav-link">About</a></li>
+	          <li class="nav-item"><a href="{% url 'view_accessories' %}" class="nav-link">Accessories</a></li>
+	          <li class="nav-item"><a href="{%url 'send_feedback' %}" class="nav-link">Contact</a></li>
+				<li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Register/Login
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        {% if request.session.Username %}
+                            <a class="dropdown-item" href="{% url 'userlogout' %}">{{ request.session.Username }} Logout</a>
+                        {% else %}
+                            <a class="dropdown-item" href="{% url 'loginuser' %}">User Login</a>
+                            <a class="dropdown-item" href="{% url 'mechlogin' %}">Mechanic Login</a>
+                            <a class="dropdown-item" href="{% url 'service_login' %}">Service Center Login</a>
+                        {% endif %}
+                    </div>
+                </li>
+{% if request.session.Username %}
+
+		    <li class="nav-item"><a href="{%url 'cartpage' %}" class="nav-link">Cart</a></li>
+                {%else%}
+<li></li>{%endif%}
+	        </ul>
+	      </div>
+	    </div>
+          {%elif request.session.Mechname%}
+          	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item active"><a href="{%url 'mech_home' %}" class="nav-link">Home</a></li>
+	          <li class="nav-item"><a href="{%url 'view_request_from_user'%}" class="nav-link">Requests</a></li>
+	          <li class="nav-item"><a href="{%url 'add_service' %}" class="nav-link">Service</a></li>
+	          <li class="nav-item"><a href="{% url 'view_accessories_mech' %}" class="nav-link">Accessories</a></li>
+<!--	          <li class="nav-item"><a href="{%url 'send_feedback' %}" class="nav-link">Contact</a></li>-->
+<!--								{% if request.session.Mechname %}-->
+<!--			<li class="nav-item"><a class="nav-link" href="{%url 'mechlogout'%}">{{ request.session.Mechname }}/Logout</a></li>-->
+<!--								{% else %}-->
+<!--			<li class="nav-item"><a class="nav-link" href="{%url 'mechlogin'%}">Register/Login</a></li>-->
+<!--								{% endif %}-->
+               <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+{{ request.session.Mechname }} Logout                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        {% if request.session.Mechname %}
+                            <a class="dropdown-item" href="{% url 'mechlogout' %}">Logout</a>
+                            <a class="dropdown-item" href="{% url 'view_profile_mech'  %}">Profile</a>
+                        {% else %}
+                            <a class="dropdown-item" href="{% url 'mechlogin' %}">Mechanic Login</a>
+                        {% endif %}
+                    </div>
+                </li>
+                        {% if request.session.Mechname %}
+
+		<li class="nav-item"><a href="{%url 'mechcartpage' %}" class="nav-link">Cart</a></li>
+            {%else%}
+            <li></li>{%endif%}</ul>
+	      </div>
+
+         {%elif request.session.Servicename%}
+          	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item active"><a href="{%url 'service_home' %}" class="nav-link">Home</a></li>
+	          <li class="nav-item"><a href="{%url 'aboutus' %}" class="nav-link">About</a></li>
+
+	          <li class="nav-item"><a href="{% url 'view_accessories' %}" class="nav-link">Accessories</a></li>
+	          <li class="nav-item"><a href="{%url 'send_feedback' %}" class="nav-link">Contact</a></li>
+				<li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{request.session.Servicename}}</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        {% if request.session.Servicename %}
+                            <a class="dropdown-item" href="{% url 'servicelogout' %}">Logout</a>
+                            <a class="dropdown-item" href="{% url 'view_profile_service' %}">Profile</a>
+                        {% else %}
+                            <a class="dropdown-item" href="{% url 'service_login' %}">Service Center Login</a>
+                        {% endif %}
+                    </div>
+                </li>
+				                        {% if request.session.Servicename %}
+
+		    <li class="nav-item"><a href="{%url 'servicecartpage' %}" class="nav-link">Cart</a></li>
+{% else %}
+                            <a></a>
+                        {% endif %}
+	        </ul>
+	      </div>
+          {%else%}	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item active"><a href="{%url 'indexpage' %}" class="nav-link">Home</a></li>
+	          <li class="nav-item"><a href="{%url 'aboutus'%}" class="nav-link">About</a></li>
+	          <li class="nav-item"><a href="{% url 'view_accessories' %}" class="nav-link">Accessories</a></li>
+	          <li class="nav-item"><a href="{%url 'send_feedback' %}" class="nav-link">Contact</a></li>
+				<li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Register/Login
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        {% if request.session.Username %}
+                            <a class="dropdown-item" href="{% url 'userlogout' %}">{{ request.session.Username }} Logout</a>
+                        {% else %}
+                            <a class="dropdown-item" href="{% url 'loginuser' %}">User Login</a>
+                            <a class="dropdown-item" href="{% url 'mechlogin' %}">Mechanic Login</a>
+                            <a class="dropdown-item" href="{% url 'service_login' %}">Service Center Login</a>
+                        {% endif %}
+                    </div>
+                </li>
+{% if request.session.Username %}
+
+		    <li class="nav-item"><a href="{%url 'cartpage' %}" class="nav-link">Cart</a></li>
+                {%else%}
+<li></li>{%endif%}
+	        </ul>
+	      </div>
+{%endif%}	    </div>
+	  </nav>
+    <!-- END nav -->
+
+    <section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url({% static 'user/images/bg_2.jpg' %});" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+          <div class="col-md-9 ftco-animate pb-5">
+          	<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Terms and Conditions <i class="ion-ios-arrow-forward"></i></span></p>
+            <h1 class="mb-3 bread">Terms and Conditions</h1>
+          </div>
+        </div>
+      </div>
+    </section>
+<!-- <section class="" style="height:400px"  data-stellar-background-ratio="0.5">-->
+<!--      <div class="overlay"></div>-->
+<!--      <div class="container">-->
+<!--        <div class="row no-gutters slider-text  justify-content" >-->
+<!--          <div class="col-md-9 ftco-animate pb-5">-->
+<!--          	<p class="breadcrumbs"  style="margin-left:50px;margin-top:100px"><span class="mr-2"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span style="color:black">-->
+
+<!--At RoadRescue, our mission is to get you back on the road quickly and safely. We offer a range of reliable roadside assistance services designed to provide you with peace of mind whenever you need help the most. <i class="ion-ios-arrow-forward"></i></span></p>-->
+<!--            <h1 class="mb-3 bread">Welcome to RoadRescue</h1>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </section>-->
+          <section class="ftco-section services-section ftco-no-pt ftco-no-pb">
+      <div class="container" style="margin-top:100px">
+      	<div class="row justify-content-center">
+          <div class="col-md-12 heading-section text-center ftco-animate mb-5">
+          	<span class="subheading">At RoadRescue, our mission is to get you back on the road quickly and safely. We offer a range of reliable roadside assistance services designed to provide you with peace of mind whenever you need help the most.
+
+</span>
+              <h4 class="mb-2">Welcome to </h4><h2 style="font-family:sanserif;color:darkorange">Get Me Help</h2>
+
+
+          </div>
+        </div>
+        <div class="row d-flex">
+
+
+        </div>
+      </div>
+    </section>
+
+    <section class="ftco-section services-section ftco-no-pt ftco-no-pb">
+      <div class="container">
+      	<div class="row justify-content-center">
+          <div class="col-md-12 heading-section text-center ftco-animate mb-5">
+          	<span class="subheading">Terms and Conditions</span>
+            <h2 class="mb-2">Terms and Conditions</h2>
+          </div>
+        </div>
+          <div>
+              <h4>
+                  Service Coverage:
+              </h4>
+              <ol>
+                  <li>Assistance is available within designated geographical areas. Service outside these areas may incur additional charges or be unavailable.</li>
+                  <li>Coverage includes towing, battery jump-starts, tire changes, fuel delivery, and minor mechanical repairs.</li>
+
+              </ol>
+          </div>
+                    <div>
+              <h4>
+                  Service Limitations:
+              </h4>
+              <ol>
+                  <li>Services are provided for mechanical breakdowns only and do not cover accidents or vandalism.</li>
+
+              </ol>
+          </div>
+                    <div>
+              <h4>
+Response Time:
+              </h4>
+              <ol>
+                  <li>Response times may vary based on location, traffic conditions, and availability of service providers.</li>
+                  <li>The service provider is not liable for delays caused by unforeseen circumstances.</li>
+              </ol>
+          </div>
+                    <div>
+              <h4>
+Liability:
+              </h4>
+              <ol>
+                  <li>The service provider is not responsible for any damage to the vehicle or personal property during the provision of services.
+</li>
+                  <li>Liability for any repairs made by the service provider is limited to the cost of the service provided</li>
+              </ol>
+          </div>
+                    <div>
+              <h4>
+                  Payment:
+
+
+
+              </h4>
+              <ol>
+                  <li>Any additional services or repairs beyond the standard assistance will incur extra charges, payable by the vehicle owner.
+
+</li>
+                  <liPayment for services must be made at the time of service or as per the agreement with the service provider.</li>
+              </ol>
+          </div>
+                    <div>
+              <h4>
+Response Time
+              </h4>
+              <ol>
+                  <li>Average Response Time: 30-45 minutes in urban areas.</li>
+                  <li>Priority Services: Expedited assistance available for an additional fee.</li>
+              </ol>
+          </div>  <div>
+              <h4>
+Customer Responsibilities:              </h4>
+              <ol>
+                  <li>Customer must provide accurate information about their location and the nature of the breakdown.</li>
+                  <li>Customer are responsible for ensuring their vehicle is safely off the road and accessible to the service provider.</li>
+              </ol>
+          </div><div>
+              <h4>
+Dispute Resolution:              </h4>
+              <ol>
+                  <li>Any disputes arising from the provision of services will be resolved through mediation or arbitration, as agreed upon by both parties.</li>
+                  <li>Legal proceedings, if necessary, will be conducted in the jurisdiction of the service provider's main office.
+</li>
+              </ol>
+          </div><div>
+              <h4>
+Privacy Policy:              </h4>
+              <ol>
+                  <li>The service provider will collect and use personal information in accordance with their privacy policy, ensuring confidentiality and data protection.</li>
+                  <li>Information may be shared with third-party service providers only as necessary to provide assistance.
+</li>
+              </ol>
+          </div>
+
+
+
+<!--        <div class="row d-flex">-->
+<!--          <div class="col-md-3 d-flex align-self-stretch ftco-animate">-->
+<!--            <div class="media block-6 services">-->
+<!--              <div class="media-body py-md-4">-->
+<!--              	<div class="d-flex mb-3 align-items-center">-->
+<!--	              	<div class="icon"><span class="flaticon-customer-support"></span></div>-->
+<!--	                <h3 class="heading mb-0 pl-3">Emergency Roadside Assistance</h3>-->
+<!--                </div>-->
+<!--                  <p></p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-md-3 d-flex align-self-stretch ftco-animate">-->
+<!--            <div class="media block-6 services">-->
+<!--              <div class="media-body py-md-4">-->
+<!--              	<div class="d-flex mb-3 align-items-center">-->
+<!--	              	<div class="icon"><span class="flaticon-customer-support"></span></div>-->
+<!--	                <h3 class="heading mb-0 pl-3">24/7 Vehicle Support</h3>-->
+<!--                </div>-->
+<!--                <p>Providing continuous assistance and maintenance for vehicles around the clock,-->
+<!--                    ensuring drivers have access to help whenever they encounter issues or breakdowns.-->
+<!--                    </p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-md-3 d-flex align-self-stretch ftco-animate">-->
+<!--            <div class="media block-6 services">-->
+<!--              <div class="media-body py-md-4">-->
+<!--              	<div class="d-flex mb-3 align-items-center">-->
+<!--	              	<div class="icon"><span class="flaticon-online-booking"></span></div>-->
+<!--	                <h3 class="heading mb-0 pl-3">Reservation</h3>-->
+<!--                </div>-->
+<!--                <p>Scheduling or booking appointments for maintenance, repairs, or other services offered by service centers.-->
+<!--					Customers can reserve a specific time slot to bring their vehicles in for services.</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-md-3 d-flex align-self-stretch ftco-animate">-->
+<!--            <div class="media block-6 services">-->
+<!--              <div class="media-body py-md-4">-->
+<!--              	<div class="d-flex mb-3 align-items-center">-->
+<!--	              	<div class="icon"><span class="flaticon-rent"></span></div>-->
+<!--	                <h3 class="heading mb-0 pl-3">Roadside Repair Services</h3>-->
+<!--                </div>-->
+<!--                <p>On-the-spot repairs for common issues like battery replacements, flat tires, and minor mechanical repairs.</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--			          <div class="col-md-3 d-flex align-self-stretch ftco-animate">-->
+<!--            <div class="media block-6 services">-->
+<!--              <div class="media-body py-md-4">-->
+<!--              	<div class="d-flex mb-3 align-items-center">-->
+<!--	              	<div class="icon"><span class="flaticon-rent"></span></div>-->
+<!--	                <h3 class="heading mb-0 pl-3">Jump-Start Services</h3>-->
+<!--                </div>-->
+<!--                <p>On-the-spot repairs for common issues like battery replacements, flat tires, and minor mechanical repairsAssistance with jump-starting a vehicle with a dead battery.</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--						          <div class="col-md-3 d-flex align-self-stretch ftco-animate">-->
+<!--            <div class="media block-6 services">-->
+<!--              <div class="media-body py-md-4">-->
+<!--              	<div class="d-flex mb-3 align-items-center">-->
+<!--	              	<div class="icon"><span class="flaticon-rent"></span></div>-->
+<!--	                <h3 class="heading mb-0 pl-3">Multi-Vehicle Coverage</h3>-->
+<!--                </div>-->
+<!--                <p>Assistance provided for various types of vehicles, including cars, motorcycles, RVs, and trucks.</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+
+
+<!--        </div>-->
+      </div>
+    </section>
+
+    <section class="ftco-section services-section img" style="background-image: url({% static 'images/bg_2.jpg' %});">
+    	<div class="overlay"></div>
+    	<div class="container">
+    		<div class="row justify-content-center mb-5">
+          <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
+          	<span class="subheading">Work flow</span>
+            <h2 class="mb-3">How Mechanic Section works</h2>
+          </div>
+        </div>
+    		<div class="row">
+    			<div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services services-2">
+              <div class="media-body py-md-4 text-center">
+              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-route"></span></div>
+                <h3>Search from where you are</h3>
+                <p>Open ORVBA website and search for Mechanic by clicking "Get Started"</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services services-2">
+              <div class="media-body py-md-4 text-center">
+              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-select"></span></div>
+                <h3>Register/Login</h3>
+                <p>If you are already registered just login,if you are not registered ,register first to login</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services services-2">
+              <div class="media-body py-md-4 text-center">
+              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-rent"></span></div>
+                <h3>Choose A Mechanic</h3>
+                <p>Based on your vehicle choose the mechanic you want and send request</p>
+              </div>
+            </div>
+          </div>
+<!--          <div class="col-md-3 d-flex align-self-stretch ftco-animate">-->
+<!--            <div class="media block-6 services services-2">-->
+<!--              <div class="media-body py-md-4 text-center">-->
+<!--              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-review"></span></div>-->
+<!--                <h3>Send Request</h3>-->
+<!--                <p>Send request to the mechanic and contact tem if you want</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+				          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services services-2">
+              <div class="media-body py-md-4 text-center">
+              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-review"></span></div>
+                <h3>Mechanics are near you,have a safe journey</h3>
+                <p>Mechanic will accept/reject request and come to do the work.</p>
+              </div>
+            </div>
+          </div>
+
+    		</div>
+    	</div>
+    </section>
+    <section class="ftco-section services-section img" style="background-image: url({% static 'images/bg_2.jpg' %});">
+    	<div class="overlay"></div>
+    	<div class="container">
+    		<div class="row justify-content-center mb-5">
+          <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
+          	<span class="subheading">Work flow</span>
+            <h2 class="mb-3">How Service Center Section works</h2>
+          </div>
+        </div>
+    		<div class="row">
+    			<div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services services-2">
+              <div class="media-body py-md-4 text-center">
+              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-route"></span></div>
+                <h3>Search from where you are</h3>
+                <p>Open ORVBA website and search for Service Center by clicking "Search Now"</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services services-2">
+              <div class="media-body py-md-4 text-center">
+              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-select"></span></div>
+                <h3>Register/Login</h3>
+                <p>If you are already registered just login,if you are not registered ,register first to login</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services services-2">
+              <div class="media-body py-md-4 text-center">
+              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-rent"></span></div>
+                <h3>Choose A Service Center</h3>
+                <p>Based on your vehicle choose the service enter you want</p>
+              </div>
+            </div>
+          </div>
+<!--          <div class="col-md-3 d-flex align-self-stretch ftco-animate">-->
+<!--            <div class="media block-6 services services-2">-->
+<!--              <div class="media-body py-md-4 text-center">-->
+<!--              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-review"></span></div>-->
+<!--                <h3>Send Request</h3>-->
+<!--                <p>Send request to the mechanic and contact tem if you want</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+				          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services services-2">
+              <div class="media-body py-md-4 text-center">
+              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-review"></span></div>
+                <h3>Service Center are near you,have a safe journey</h3>
+                <p>Book Service Center by giving date and time</p>
+              </div>
+            </div>
+          </div>
+
+    		</div>
+    	</div>
+    </section>
+
+    <section class="ftco-section testimony-section">
+      <div class="container">
+        <div class="row justify-content-center mb-5">
+          <div class="col-md-7 text-center heading-section ftco-animate">
+          	<span class="subheading">Testimonial</span>
+            <h2 class="mb-3">Happy Clients</h2>
+          </div>
+        </div>
+        <div class="row ftco-animate">
+          <div class="col-md-12">
+            <div class="carousel-testimony owl-carousel ftco-owl">
+                                                  {%for i in data%}
+
+              <div class="item">
+                <div class="testimony-wrap text-center py-4 pb-5">
+                  <div class="user-img mb-4" style="">
+                  </div>
+                  <div class="text pt-5">
+                    <p class="mb-4" style=" .break-word {
+            word-break: break-all;
+        }">{{i.message}}</p>
+                    <p class="name">{{i.name}}</p>
+<!--                    <span class="position">Marketing Manager</span>-->
+                  </div>
+                </div>
+
+              </div>
+                                                  {%endfor%}
+
+<!--              <div class="item">-->
+<!--                <div class="testimony-wrap text-center py-4 pb-5">-->
+<!--                  <div class="user-img mb-4" style="background-image: url(images/person_2.jpg)">-->
+<!--                  </div>-->
+<!--                  <div class="text pt-4">-->
+<!--                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>-->
+<!--                    <p class="name">Roger Scott</p>-->
+<!--                    <span class="position">Interface Designer</span>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="item">-->
+<!--                <div class="testimony-wrap text-center py-4 pb-5">-->
+<!--                  <div class="user-img mb-4" style="background-image: url(images/person_3.jpg)">-->
+<!--                  </div>-->
+<!--                  <div class="text pt-4">-->
+<!--                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>-->
+<!--                    <p class="name">Roger Scott</p>-->
+<!--                    <span class="position">UI Designer</span>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="item">-->
+<!--                <div class="testimony-wrap text-center py-4 pb-5">-->
+<!--                  <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">-->
+<!--                  </div>-->
+<!--                  <div class="text pt-4">-->
+<!--                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>-->
+<!--                    <p class="name">Roger Scott</p>-->
+<!--                    <span class="position">Web Developer</span>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="item">-->
+<!--                <div class="testimony-wrap text-center py-4 pb-5">-->
+<!--                  <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">-->
+<!--                  </div>-->
+<!--                  <div class="text pt-4">-->
+<!--                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>-->
+<!--                    <p class="name">Roger Scott</p>-->
+<!--                    <span class="position">System Analyst</span>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--            </div>-->
+          </div>
+        </div>
+      </div>
+    </section>
+
+		<section class="ftco-section ftco-no-pt ftco-no-pb">
+			<div class="container">
+				<div class="row no-gutters">
+					<div class="col-md-6 p-md-5 img img-2 d-flex justify-content-center align-items-center" style="background-image: url({% static 'user/images/about.jpg' %});">
+					</div>
+					<div class="col-md-6 wrap-about py-md-5 ftco-animate">
+	          <div class="heading-section mb-5 pl-md-5">
+	          	<span class="subheading">About us</span>
+	            <h2 class="mb-4">Choose A Perfect Car</h2>
+
+	            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+	            <p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country. But nothing the copy said could convince her and so it didn’t take long until a few insidious Copy Writers ambushed her, made her drunk with Longe and Parole and dragged her into their agency, where they abused her for their.</p>
+	            <p><a href="#" class="btn btn-primary">Search Vehicle</a></p>
+	          </div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+    <footer class="ftco-footer ftco-bg-dark ftco-section">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4">
+              <h2 class="ftco-heading-2">About GET ME HELP</h2>
+              <p>The GET ME HELP aims to provide immediate and efficient roadside support to drivers encountering vehicle malfunctions or emergencies, ensuring timely assistance and enhancing road safety.</p>
+<!--              <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">-->
+<!--                <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>-->
+<!--                <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>-->
+<!--                <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>-->
+<!--              </ul>-->
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4 ml-md-5">
+              <h2 class="ftco-heading-2">Information</h2>
+              <ul class="list-unstyled">
+                <li><a href="{%url 'aboutus'%}" class="py-2 d-block">About</a></li>
+                <li><a href="{%url 'service_page'%}" class="">Services</a></li>
+                <li><a href="{%url 'term_condition' %}" class="py-2 d-block">Term and Conditions</a></li>
+<!--                <li><a href="#" class="py-2 d-block">Best Price Guarantee</a></li>-->
+<!--                <li><a href="#" class="py-2 d-block">Privacy &amp; Cookies Policy</a></li>-->
+              </ul>
+            </div>
+          </div>
+
+                      <div class="col-md">
+            <div class="ftco-footer-widget mb-4 ml-md-5">
+               <h2 class="ftco-heading-2">Customer Support</h2>
+              <ul class="list-unstyled">
+<!--                <li><a href="{%url 'faq_view' %}" class="py-2 d-block">FAQ</a></li>-->
+<!--                <li><a href="#" class="py-2 d-block">Payment Option</a></li>-->
+<!--                <li><a href="#" class="py-2 d-block">Booking Tips</a></li>-->
+                <li><a href="{%url 'how_it_works'%}" class="py-2 d-block">How it works</a></li>
+                <li><a href="{%url 'send_feedback'%}" class="py-2 d-block">Contact Us</a></li>
+              </ul>
+            </div>
+          </div>
+<div class="col-md" >
+             <div class="ftco-footer-widget mb-4 ml-md-5">
+              <h2 class="ftco-heading-2">Have a Questions?</h2>
+            	<div class="block-23 mb-3">
+	              <ul>
+	                <li><span class="icon icon-map-marker"></span><span class="text">Kallar, Rajapuram, Kasaragod, Kerala</span></li>
+	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+91 8139808271</span></a></li>
+	                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@orvba.com</span></a></li>
+	              </ul>
+	            </div>
+            </div>
+          </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+
+            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->ADMIN <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="#" target="_blank">GET ME HELP</a>
+  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+  <script src="{% static 'user/js/jquery.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery-migrate-3.0.1.min.js' %}"></script>
+  <script src="{% static 'user/js/popper.min.js' %}"></script>
+  <script src="{% static 'user/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery.easing.1.3.js' %}"></script>
+  <script src="{% static 'user/js/jquery.waypoints.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery.stellar.min.js' %}"></script>
+  <script src="{% static 'user/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery.magnific-popup.min.js' %}"></script>
+  <script src="{% static 'user/js/aos.js' %}"></script>
+  <script src="{% static 'user/js/jquery.animateNumber.min.js' %}"></script>
+  <script src="{% static 'user/js/bootstrap-datepicker.js' %}"></script>
+  <script src="{% static 'user/js/jquery.timepicker.min.js' %}"></script>
+  <script src="{% static 'user/js/scrollax.min.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+  <script src="{% static 'user/js/google-map.js' %}"></script>
+  <script src="{% static 'user/js/main.js' %}"></script>
+
+  </body>
+</html>

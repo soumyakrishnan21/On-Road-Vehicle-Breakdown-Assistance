@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mechanic Dashboard</title>
+    <style>
+        #notification {
+            display: none;
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mechanic Dashboard</h1>
+    <div id="notification"></div>
+
+    <script>
+        function connectWebSocket(mechanicId) {
+            const ws = new WebSocket(`ws://localhost:8001/ws/mechanic/${mechanicId}/`);
+
+            ws.onopen = () => {
+                console.log('WebSocket connected');
+            };
+
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                displayNotification(data.message);
+            };
+
+            ws.onclose = () => {
+                console.log('WebSocket disconnected');
+            };
+
+            ws.onerror = (error) => {
+                console.log('WebSocket error: ', error);
+            };
+        }
+
+        function displayNotification(message) {
+            const notificationElement = document.getElementById('notification');
+            notificationElement.textContent = message;
+            notificationElement.style.display = 'block';
+            alert(message);  // Show a browser alert as well
+        }
+
+        // Call the connectWebSocket function with the mechanic's ID
+        const mechanicId = '{{ mechanic_id }}';  // Pass the actual mechanic ID from Django context
+        connectWebSocket(mechanicId);
+    </script>
+</body>
+</html>

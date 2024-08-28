@@ -1,0 +1,15 @@
+<!-- templates/email/order_confirmation.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Confirmation</title>
+</head>
+<body>
+    <h1>Order Confirmation</h1>
+    <p>Dear {{ user.username }},</p>
+    <p>Your order has been {{order.status}}.</p>
+    <p>Thank you for shopping with us!</p>
+    <p>Best regards,<br>The Shop Team</p>
+</body>
+</html>

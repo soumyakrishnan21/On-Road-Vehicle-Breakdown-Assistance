@@ -1,0 +1,51 @@
+<!-- faq.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ</title>
+    <link rel="stylesheet" href="">
+    <style>/* static/css/style.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: auto;
+}
+
+.faq-item {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.faq-item h2 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.faq-item p {
+    margin: 10px 0 0;
+    font-size: 1em;
+    color: #555;
+}
+</style>
+</head>
+<body>
+    <h1>Frequently Asked Questions</h1>
+    <div class="faq-container">
+        {% for faq in faqs %}
+            <div class="faq-item">
+                <h2>{{ faq.question }}</h2>
+                <p>{{ faq.answer }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

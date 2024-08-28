@@ -1,0 +1,475 @@
+
+<!DOCTYPE html>
+{%load static%}
+
+
+<html lang="en">
+  <head>
+    <title>Booking Status</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'user/css/open-iconic-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/animate.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/magnific-popup.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/aos.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/ionicons.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/bootstrap-datepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/jquery.timepicker.css' %}">
+
+
+    <link rel="stylesheet" href="{% static 'user/css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/icomoon.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/style.css' %}">
+ <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Leaflet JavaScript -->
+    <!-- Include Leaflet JavaScript -->
+    <!-- Set map container size -->
+    <style>
+        #map { height: 400px; }
+    </style>
+      <style>.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+          .card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid #d8e0ec;
+  border-radius: 0;
+}
+
+.card > hr {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.card > .list-group {
+  border-top: inherit;
+  border-bottom: inherit;
+}
+
+.card > .list-group:first-child {
+  border-top-width: 0;
+  border-top-left-radius: calc(0.25rem - 1px);
+  border-top-right-radius: calc(0.25rem - 1px);
+}
+
+.card > .list-group:last-child {
+  border-bottom-width: 0;
+  border-bottom-right-radius: calc(0.25rem - 1px);
+  border-bottom-left-radius: calc(0.25rem - 1px);
+}
+
+.card > .card-header + .list-group,
+.card > .list-group + .card-footer {
+  border-top: 0;
+}
+
+.card-body {
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 1.25rem;
+}
+
+.card-title {
+  margin-bottom: 0.75rem;
+}
+
+.card-subtitle {
+  margin-top: -0.375rem;
+  margin-bottom: 0;
+}
+
+.card-text:last-child {
+  margin-bottom: 0;
+}
+
+.card-link:hover {
+  text-decoration: none;
+}
+
+.card-link + .card-link {
+  margin-left: 1.25rem;
+}
+
+.card-header {
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 0;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-bottom: 1px solid #d8e0ec;
+}
+
+.card-header:first-child {
+  border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+}
+
+.card-footer {
+  padding: 0.75rem 1.25rem;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-top: 1px solid #d8e0ec;
+}
+
+.card-footer:last-child {
+  border-radius: 0 0 calc(0.25rem - 1px) calc(0.25rem - 1px);
+}
+
+.card-header-tabs {
+  margin-right: -0.625rem;
+  margin-bottom: -0.75rem;
+  margin-left: -0.625rem;
+  border-bottom: 0;
+}
+
+.card-header-pills {
+  margin-right: -0.625rem;
+  margin-left: -0.625rem;
+}
+          .hero-wrap {
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden; /* Ensure content doesn't overflow */
+}
+
+.hero-wrap .overlay {
+    height: 100%;
+}
+
+.hero-wrap .container {
+    height: 100%;
+    display: flex;
+    align-items: flex-end; /* Adjust alignment of content */
+    justify-content: flex-start; /* Adjust alignment of content */
+}
+          @media (max-width: 768px) {
+    .hero-wrap {
+        height: 200px; /* Adjust height for smaller screens */
+    }
+}
+
+      </style>
+<style>
+  /* Ensure the table takes up full width */
+  .table-container {
+    width: 100%;
+    overflow-x: auto; /* Add horizontal scroll if the table is too wide */
+  }
+
+  /* Apply consistent styling to the table */
+  .table {
+    width: 100%;
+    border-collapse: collapse; /* Collapse borders to avoid spacing issues */
+  }
+
+  .table th, .table td {
+    padding: 10px; /* Add padding for readability */
+    text-align: left; /* Align text to the left */
+    border-bottom: 1px solid #ddd; /* Add a border to separate rows */
+  }
+
+  .table th {
+    background-color: #f4f4f4; /* Light background color for headers */
+    position: sticky; /* Make headers sticky for better usability */
+    top: 0; /* Stick headers to the top */
+    z-index: 1; /* Ensure headers are above other content */
+  }
+
+  /* Adjust column widths if necessary */
+  .table th:nth-child(1),
+  .table td:nth-child(1) { width: 15%; } /* Adjust width for the first column */
+
+  .table th:nth-child(2),
+  .table td:nth-child(2) { width: 20%; } /* Adjust width for the second column */
+
+  /* Repeat for other columns if needed */
+</style>
+  </head>
+  <body style="width:100%">
+
+	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+	    <div class="container">
+	      <a class="navbar-brand" href="index.html">GET<span>ME HELP</span></a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> Menu
+	      </button>
+
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item active"><a href="{%url 'indexpage' %}" class="nav-link">Home</a></li>
+	          <li class="nav-item"><a href="{%url 'aboutus'%}" class="nav-link">About</a></li>
+	          <li class="nav-item"><a href="{% url 'view_accessories' %}" class="nav-link">Accessories</a></li>
+	          <li class="nav-item"><a href="{%url 'send_feedback' %}" class="nav-link">Contact</a></li>
+				<li class="nav-item dropdown">
+                        {% if request.session.Username %}
+
+<!--                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">-->
+                                                <a class="nav-link" href="{%url 'userlogout'%}" id="navbarDropdownMenuLink" >
+{{ request.session.Username }} /Logout</a>
+<!--                    </div>-->
+                    		    <li class="nav-item"><a href="{%url 'cartpage' %}" class="nav-link">Cart</a></li>
+
+                        {% else %}
+
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Register/Login
+                    </a>
+
+
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+
+                            <a class="dropdown-item" href="{% url 'loginuser' %}">User Login</a>
+                            <a class="dropdown-item" href="{% url 'mechlogin' %}">Mechanic Login</a>
+                            <a class="dropdown-item" href="{% url 'service_login' %}">Service Center Login</a>
+                    </div>
+                </li>
+                        {% endif %}
+
+
+                                        {% if request.session.Username %}
+
+                {%else%}
+<li></li>{%endif%}
+	        </ul>
+	      </div>
+	    </div>
+	  </nav>
+    <!-- END nav -->
+
+    <section class="hero-wrap" style="background-image: url({% static 'bg11.jpg' %});" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+          <div class="col-md-9 ftco-animate pb-5">
+<!--          	<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>About us <i class="ion-ios-arrow-forward"></i></span></p>-->
+            <h1 class="mb-3 bread">Service Center Booking Status</h1>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ftco-section">
+                    <div><div class="form-group">
+                    <div class="input-group" style="margin-left:1200px">
+                      <div class="input-group-prepend">
+                        <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Requests</button>
+                        <div class="dropdown-menu">
+                          <a class="dropdown-item" href="{%url 'view_booking_status'  %}">Pending</a>
+                         <div role="separator" class="dropdown-divider"></div>
+                        </div>
+                      </div>
+<!--                      <input type="text" class="form-control" aria-label="Text input with dropdown button">-->
+                    </div>
+                  </div></div>
+
+    	<div class="container">
+    		<div class="row">
+<div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Request From User</h4>
+<!--                    <p class="card-description"> Add class <code>.table-striped</code>-->
+<!--                    </p>-->
+                    <div class="table-responsive">
+                      <table class="table table-striped">
+                        <thead style="margin-left:800px">
+                          <tr>
+                            <th>Name</th>
+                            <th>Mobile Number</th>
+                            <th>Latitude</th>
+                            <th>Longitude</th>
+                              <th>Booking date and time</th>
+                              <th>Status</th>
+                              <th></th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+{%for user_data in data%}
+                          <tr>
+                            <td>{{user_data.username}}</td>
+                            <td>{{user_data.Mobile}}</td>
+                            <td id="lat">{{user_data.latitude}}</td>
+                            <td id="long">{{user_data.longitude}}</td>
+                            <td>{{user_data.bdate}} {{user_data.btime}}</td>
+                            <td>{{user_data.status}}</td>
+                     <td><a href="">{{user_data.payment_status}}</a></td>
+                          </tr>
+                        {%endfor%}
+<!--<td> <h1>User Location</h1>-->
+<!--    <div id="map">-->
+<!--        -->
+<!--    </div></td>-->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+<!--    <div id="mapid" style="height: 400px;"></div>-->
+
+    		</div>
+
+<!--    		<div class="row mt-5">-->
+<!--          <div class="col text-center">-->
+<!--            <div class="block-27">-->
+<!--              <ul>-->
+<!--                <li><a href="#">&lt;</a></li>-->
+<!--                <li class="active"><span>1</span></li>-->
+<!--                <li><a href="#">2</a></li>-->
+<!--                <li><a href="#">3</a></li>-->
+<!--                <li><a href="#">4</a></li>-->
+<!--                <li><a href="#">5</a></li>-->
+<!--                <li><a href="#">&gt;</a></li>-->
+<!--              </ul>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+    	</div>
+    </section>
+
+
+    <footer class="ftco-footer ftco-bg-dark ftco-section">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4">
+              <h2 class="ftco-heading-2">About GET ME HELP</h2>
+              <p>The GET ME HELP aims to provide immediate and efficient roadside support to drivers encountering vehicle malfunctions or emergencies, ensuring timely assistance and enhancing road safety.</p>
+<!--              <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">-->
+<!--                <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>-->
+<!--                <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>-->
+<!--                <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>-->
+<!--              </ul>-->
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4 ml-md-5">
+              <h2 class="ftco-heading-2">Information</h2>
+              <ul class="list-unstyled">
+                <li><a href="{%url 'aboutus'%}" class="py-2 d-block">About</a></li>
+                <li><a href="{%url 'service_page'%}" class="">Services</a></li>
+                <li><a href="{%url 'term_condition' %}" class="py-2 d-block">Term and Conditions</a></li>
+<!--                <li><a href="#" class="py-2 d-block">Best Price Guarantee</a></li>-->
+<!--                <li><a href="#" class="py-2 d-block">Privacy &amp; Cookies Policy</a></li>-->
+              </ul>
+            </div>
+          </div>
+
+                      <div class="col-md">
+            <div class="ftco-footer-widget mb-4 ml-md-5">
+               <h2 class="ftco-heading-2">Customer Support</h2>
+              <ul class="list-unstyled">
+<!--                <li><a href="{%url 'faq_view' %}" class="py-2 d-block">FAQ</a></li>-->
+<!--                <li><a href="#" class="py-2 d-block">Payment Option</a></li>-->
+<!--                <li><a href="#" class="py-2 d-block">Booking Tips</a></li>-->
+                <li><a href="{%url 'how_it_works'%}" class="py-2 d-block">How it works</a></li>
+                <li><a href="{%url 'send_feedback'%}" class="py-2 d-block">Contact Us</a></li>
+              </ul>
+            </div>
+          </div>
+<div class="col-md" >
+             <div class="ftco-footer-widget mb-4 ml-md-5">
+              <h2 class="ftco-heading-2">Have a Questions?</h2>
+            	<div class="block-23 mb-3">
+	              <ul>
+	                <li><span class="icon icon-map-marker"></span><span class="text">Kallar, Rajapuram, Kasaragod, Kerala</span></li>
+	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+91 8139808271</span></a></li>
+	                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@orvba.com</span></a></li>
+	              </ul>
+	            </div>
+            </div>
+          </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+
+            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->ADMIN <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="#" target="_blank">GET ME HELP</a>
+  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+   <script src="{% static 'user/js/jquery.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery-migrate-3.0.1.min.js' %}"></script>
+  <script src="{% static 'user/js/popper.min.js' %}"></script>
+  <script src="{% static 'user/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery.easing.1.3.js' %}"></script>
+  <script src="{% static 'user/js/jquery.waypoints.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery.stellar.min.js' %}"></script>
+  <script src="{% static 'user/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery.magnific-popup.min.js' %}"></script>
+  <script src="{% static 'user/js/aos.js' %}"></script>
+  <script src="{% static 'user/js/jquery.animateNumber.min.js' %}"></script>
+  <script src="{% static 'user/js/bootstrap-datepicker.js' %}"></script>
+  <script src="{% static 'user/js/jquery.timepicker.min.js' %}"></script>
+  <script src="{% static 'user/js/scrollax.min.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+  <script src="{% static 'user/js/google-map.js' %}"></script>
+  <script src="{% static 'user/js/main.js' %}"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.min.js"></script>
+
+
+   <script>
+        var map = L.map('map').setView([{{ data.0.latitude }}, {{ data.0.longitude }}], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Add mechanic marker
+        var mechanicMarker = L.marker([{{ data.0.latitude }}, {{ data.0.longitude }}]).addTo(map)
+            .bindPopup('Mechanic Location');
+
+        // Add user marker
+        var userMarker = L.marker([{{ data.0.latitude }}, {{ data.0.longitude }}]).addTo(map)
+            .bindPopup('User Location');
+
+        // Routing
+        var routeControl = L.Routing.control({
+            waypoints: [
+                L.latLng({{ data.0.latitude }}, {{ data.0.longitude }}), // Mechanic's location
+                L.latLng({{ data.0.latitude }}, {{ data.0.longitude }})  // User's location
+            ],
+            routeWhileDragging: true,
+            geocoder: L.Control.Geocoder.nominatim(),
+            reverseWaypoints: true,
+            showAlternatives: true,
+            collapsible: true,
+            language: 'en',
+            createMarker: function() { return null; }
+        }).addTo(map);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,993 @@
+
+<!DOCTYPE html>
+{%load static%}
+<html lang="en">
+  <head>
+    <title>Get Me Help</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'user/css/open-iconic-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/animate.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/magnific-popup.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/aos.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/ionicons.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/bootstrap-datepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/jquery.timepicker.css' %}">
+
+
+    <link rel="stylesheet" href="{% static 'user/css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/icomoon.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/style.css' %}">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+<style>
+		body {
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+      <style>
+        /* Overlay for the popup */
+        .overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Popup box styling */
+        .popup {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        /* Close button styling */
+        .popup button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+	  <style>
+.containerimg {
+  position: relative;
+  width: 50%;
+}
+
+.imagehover {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.containerimg:hover .imagehover {
+  opacity: 0.3;
+}
+
+.containerimg:hover .middle {
+  opacity: 1;
+}
+
+.textimg {
+  background-color: #04AA6D;
+  color: white;
+  font-size: 16px;
+  padding: 16px 32px;
+  width:200px;
+  margin-left:200px
+}
+          .notification {
+    padding: 10px;
+    margin: 5px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 1000; /* Ensure it appears on top */
+}
+</style>
+
+  </head>
+  <body style="width:100%">
+	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+	    <div class="container">
+	      <a class="navbar-brand" href="index.html">GET ME<span>HELP</span></a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> Menu
+	      </button>
+
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item active"><a href="{%url 'indexpage' %}" class="nav-link">Home</a></li>
+	          <li class="nav-item"><a href="{%url 'aboutus'%}" class="nav-link">About</a></li>
+	          <li class="nav-item"><a href="{% url 'view_accessories' %}" class="nav-link">Accessories</a></li>
+	          <li class="nav-item"><a href="{%url 'send_feedback' %}" class="nav-link">Contact</a></li>
+				<li class="nav-item dropdown">
+                        {% if request.session.Username %}
+
+<!--                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">-->
+                                                <a class="nav-link" href="{%url 'userlogout'%}" id="navbarDropdownMenuLink" >
+{{ request.session.Username }} /Logout</a>
+<!--                    </div>-->
+                    		    <li class="nav-item"><a href="{%url 'cartpage' %}" class="nav-link">Cart</a></li>
+
+                        {% else %}
+
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Register/Login
+                    </a>
+
+
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+
+                            <a class="dropdown-item" href="{% url 'loginuser' %}">User Login</a>
+                            <a class="dropdown-item" href="{% url 'mechlogin' %}">Mechanic Login</a>
+                            <a class="dropdown-item" href="{% url 'service_login' %}">Service Center Login</a>
+                    </div>
+                </li>
+                        {% endif %}
+
+
+                                        {% if request.session.Username %}
+
+                {%else%}
+<li></li>{%endif%}
+	        </ul>
+	      </div>
+	    </div>
+	  </nav>
+
+    <!-- END nav -->
+<!--<div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">-->
+<!--  <div class="carousel-inner">-->
+<!--    <div class="carousel-item active">-->
+<!--    <div class="hero-wrap" style="background-image: url({% static 'bg3.jpg' %});" data-stellar-background-ratio="0.5">-->
+<!--      <div class="overlay"></div>-->
+<!--      <div class="container">-->
+<!--        <div class="row no-gutters slider-text justify-content-start align-items-center">-->
+<!--          <div class="col-lg-6 col-md-6 ftco-animate d-flex align-items-end">-->
+<!--          	<div class="text">-->
+<!--	            <h1 class="mb-4">Vehicle Breakdown Services,  <span> Anywhere</span> <span>Anytime</span></h1>-->
+<!--&lt;!&ndash;	            <p style="font-size: 18px;">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts</p>&ndash;&gt;-->
+<!--	            <a href="{%url 'userlogin'%}" class="icon-wrap d-flex align-items-center mt-4">-->
+<!--	            	<div class="icon d-flex align-items-center justify-content-center">-->
+<!--	            		<span class="ion-ios-play"></span>-->
+<!--	            	</div>-->
+<!--	            	<div class="heading-title ml-5">-->
+<!--		            	<span>Let's Start from Here</span>-->
+<!--	            	</div>-->
+<!--	            </a>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-lg-2 col"></div>-->
+<!--          <div class="col-lg-4 col-md-6 mt-0 mt-md-5 d-flex">-->
+<!--          	<form action="{%url 'search_nearest_locations' %}" class="request-form ftco-animate">-->
+<!--          		<h2>Make your trip safe </h2>-->
+<!--&lt;!&ndash;	    				<div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;	    					<label for="" class="label">Choose Your location</label>&ndash;&gt;-->
+<!--&lt;!&ndash;	    					<input type="text" class="form-control" placeholder="Search here">&ndash;&gt;-->
+<!--&lt;!&ndash;	    				</div>&ndash;&gt;-->
+<!--	            <div class="form-group">-->
+<!--	              <input type="submit" value="Get Help Now" class="btn btn-primary py-3 px-4">-->
+<!--	            </div>-->
+<!--	    			</form>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    </div>-->
+<!--    <div class="carousel-item">-->
+<!--    <div class="hero-wrap" style="background-image: url({% static 'bg11.jpg' %});" data-stellar-background-ratio="0.5">-->
+<!--      <div class="overlay"></div>-->
+<!--      <div class="container">-->
+<!--        <div class="row no-gutters slider-text justify-content-start align-items-center">-->
+<!--          <div class="col-lg-6 col-md-6 ftco-animate d-flex align-items-end">-->
+<!--          	<div class="text">-->
+<!--	            <h1 class="mb-4">Vehicle Breakdown Services,  <span> Anywhere</span> <span>Anytime</span></h1>-->
+<!--&lt;!&ndash;	            <p style="font-size: 18px;">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts</p>&ndash;&gt;-->
+<!--	            <a href="{%url 'userlogin'%}" class="icon-wrap d-flex align-items-center mt-4">-->
+<!--	            	<div class="icon d-flex align-items-center justify-content-center">-->
+<!--	            		<span class="ion-ios-play"></span>-->
+<!--	            	</div>-->
+<!--	            	<div class="heading-title ml-5">-->
+<!--		            	<span>Let's Start from Here</span>-->
+<!--	            	</div>-->
+<!--	            </a>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-lg-2 col"></div>-->
+<!--          <div class="col-lg-4 col-md-6 mt-0 mt-md-5 d-flex">-->
+<!--          	<form action="{%url 'search_nearest_locations' %}" class="request-form ftco-animate">-->
+<!--          		<h2>Make your trip safe </h2>-->
+<!--&lt;!&ndash;	    				<div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;	    					<label for="" class="label">Choose Your location</label>&ndash;&gt;-->
+<!--&lt;!&ndash;	    					<input type="text" class="form-control" placeholder="Search here">&ndash;&gt;-->
+<!--&lt;!&ndash;	    				</div>&ndash;&gt;-->
+<!--	            <div class="form-group">-->
+<!--	              <input type="submit" value="Get Help Now" class="btn btn-primary py-3 px-4">-->
+<!--	            </div>-->
+<!--	    			</form>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    </div>-->
+<!--    <div class="carousel-item">-->
+<!--    <div class="hero-wrap" style="background-image: url({% static 'bg5.jpg' %});" data-stellar-background-ratio="0.5">-->
+<!--      <div class="overlay"></div>-->
+<!--      <div class="container">-->
+<!--        <div class="row no-gutters slider-text justify-content-start align-items-center">-->
+<!--          <div class="col-lg-6 col-md-6 ftco-animate d-flex align-items-end">-->
+<!--          	<div class="text">-->
+<!--	            <h1 class="mb-4">Vehicle Breakdown Services,  <span> Anywhere</span> <span>Anytime</span></h1>-->
+<!--&lt;!&ndash;	            <p style="font-size: 18px;">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts</p>&ndash;&gt;-->
+<!--	            <a href="{%url 'userlogin'%}" class="icon-wrap d-flex align-items-center mt-4">-->
+<!--	            	<div class="icon d-flex align-items-center justify-content-center">-->
+<!--	            		<span class="ion-ios-play"></span>-->
+<!--	            	</div>-->
+<!--	            	<div class="heading-title ml-5">-->
+<!--		            	<span>Let's Start from Here</span>-->
+<!--	            	</div>-->
+<!--	            </a>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-lg-2 col"></div>-->
+<!--          <div class="col-lg-4 col-md-6 mt-0 mt-md-5 d-flex">-->
+<!--          	<form action="{%url 'search_nearest_locations' %}" class="request-form ftco-animate">-->
+<!--          		<h2>Make your trip safe </h2>-->
+<!--&lt;!&ndash;	    				<div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;	    					<label for="" class="label">Choose Your location</label>&ndash;&gt;-->
+<!--&lt;!&ndash;	    					<input type="text" class="form-control" placeholder="Search here">&ndash;&gt;-->
+<!--&lt;!&ndash;	    				</div>&ndash;&gt;-->
+<!--	            <div class="form-group">-->
+<!--	              <input type="submit" value="Get Help Now" class="btn btn-primary py-3 px-4">-->
+<!--	            </div>-->
+<!--	    			</form>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+    <div class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url({% static 'bg3.jpg' %});" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text justify-content-start align-items-center">
+          <div class="col-lg-6 col-md-6 ftco-animate d-flex align-items-end">
+          	<div class="text" >
+	            <h1 class="mb-4" style="color: #ffffff; font-family: 'Helvetica', sans-serif; font-size: 3em; font-weight: bold;
+	            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Vehicle Breakdown Services,
+                    <span style="color: #fd7e14; font-family: 'Helvetica', sans-serif;"> Anywhere</span>
+                    <span style="color: #fd7e14; font-family: 'Helvetica', sans-serif;">Anytime</span></h1>
+<!--	            <p style="font-size: 18px;">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts</p>-->
+<!--	            <a href="{%url 'userlogin'%}" class="icon-wrap d-flex align-items-center mt-4">-->
+<!--	            	<div class="icon d-flex align-items-center justify-content-center">-->
+<!--	            		<span class="ion-ios-play"></span>-->
+<!--	            	</div>-->
+<!--	            	<div class="heading-title ml-5">-->
+<!--&lt;!&ndash;		            	<span>Let's Start from Here</span>&ndash;&gt;-->
+<!--	            	</div>-->
+<!--	            </a>-->
+            </div>
+          </div>
+          <div class="col-lg-2 col"></div>
+          <div class="col-lg-4 col-md-6 mt-0 mt-md-5 d-flex" >
+          	<form action="{%url 'search_nearest_locations' %}" class="request-form ftco-animate">
+          		<h2>Make your trip safe </h2>
+	    				<div class="form-group">
+<!--	    					<label for="" class="label">Choose Your location</label>-->
+<!--	    					<input type="text" class="form-control" placeholder="Search here">-->
+                            <p>In moments of unexpected vehicle failure, breakdown assistance becomes crucial, offering everything from towing to minor repairs right where you are.</p>
+	    				</div>
+	            <div class="form-group">
+	              <input type="submit" value="Get Help Now" class="btn btn-primary py-3 px-4">
+	            </div>
+	    			</form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="ftco-section ftco-no-pb ftco-no-pt">
+    	<div class="container">
+	    	<div class="row">
+					<div class="col-md-12">
+						<div class="search-wrap-1 ftco-animate mb-5">
+
+		        </div>
+					</div>
+	    	</div>
+	    </div>
+    </section>
+
+    <section class="ftco-section services-section ftco-no-pt ftco-no-pb">
+      <div class="container">
+      	<div class="row justify-content-center">
+          <div class="col-md-12 heading-section text-center ftco-animate mb-5">
+          	<span class="subheading">Book Your Vehicle ServiceNow</span>
+            <h2 class="mb-2">Choose  Service Centre</h2>
+          </div>
+        </div>
+        <div class="row d-flex">
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services">
+              <div class="media-body py-md-4" style="margin-left:50px">
+				  <div class="containerimg">
+  <img src="{% static 'service_center/1.jpeg' %}" alt="Avatar" class="imagehover" style="width:500px;height:350px">
+  <div class="middle">
+    <div class="textimg">Best Service Centers For You 24/7 Service</div>
+  </div>
+</div>
+              	<div class="d-flex mb-3 align-items-center">
+	              	<div class="icon"></div>
+	                <h3 class="heading mb-0 pl-3"> </h3>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate" >
+            <div class="media block-6 services" >
+              <div class="media-body py-md-4" style="margin-left:100px">
+              	<div class="d-flex mb-3 align-items-center">
+	              	<div style="margin-left:-100px">
+					<h4>Search for Nearby Service centers</h4>
+						<h5>Here are the best Service Centers for your Vehicle.
+</h5><p style="margin-top:20px">Welcome to our vehicle service center search platform, where finding the right automotive care is effortless.
+                        Whether you're in need of routine maintenance, repairs, or specialized services, our comprehensive
+                        directory connects you with trusted providers in your area. From certified mechanics to state-of-the-art
+                        facilities, we ensure quality and reliability, so you can drive with confidence. Simplify your vehicle maintenance
+                        journey today with our user-friendly search tools and discover top-rated service centers committed to keeping your
+                        car running smoothly.
+
+
+
+</p>
+					</div>
+<!--	                <h3 class="heading mb-0 pl-3">Lots of location</h3>-->
+
+                </div>
+				<div class="col-md-12">
+						<div class="search-wrap-1 ftco-animate mb-5">
+							<form action="{%url 'search_nearest_locations_service' %}" method="GET" class="search-property-1">
+		        		<div class="row" style="text-align:center">
+
+
+									        			<div class="col-lg align-items">
+		        				<div class="form-group">
+<!--		        					<label for="#">Current Longitude</label>-->
+		        					<div class="form-field">
+		          					<div class="select-wrap">
+		                      <div class="icon"></div>
+										<input type="hidden" name="lat" class="form-control" id="demo3" placeholder="Type location" value="{{lat}}">
+										<input type="hidden" name="lng" class="form-control" id="demo3" placeholder="Type location" value="{{long}}">
+        <input hidden="hidden" type="range" id="radius" name="radius" min="1" max="50" value="10" oninput="updateRadiusValue(this.value)">
+
+
+		                    </div>
+				              </div>
+			              </div>
+		        			</div>
+
+
+							<div class="col-lg" style="margin-left:-350px;margin-top:-50px">
+		        				<div class="form-group" style="margin-left:-200px">
+		        					<div class="form-field">
+				                <input type="submit" style="width:200px" value="Search Now" class="form-control btn">
+				              </div>
+			              </div>
+		        			</div>
+		        		</div>
+		        	</form>
+		        </div>
+					</div>
+
+              </div>
+            </div>
+          </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="ftco-section services-section ftco-no-pt ftco-no-pb" style="height:450px">
+      <div class="container">
+      	<div class="row justify-content-center">
+          <div class="col-md-12 heading-section text-center ftco-animate mb-5">
+          	<span class="subheading">Our Services</span>
+            <h2 class="mb-2">Our Services</h2>
+          </div>
+        </div>
+        <div class="row d-flex">
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services">
+              <div class="media-body py-md-4">
+              	<div class="d-flex mb-3 align-items-center">
+	              	<div class="icon"><span class="flaticon-customer-support"></span></div>
+	                <h3 class="heading mb-0 pl-3">24/7 Vehicle Support</h3>
+                </div>
+                <p>Providing continuous assistance and maintenance for vehicles around the clock,
+                    ensuring drivers have access to help whenever they encounter issues or breakdowns.
+                    </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services">
+              <div class="media-body py-md-4">
+              	<div class="d-flex mb-3 align-items-center">
+	              	<div class="icon"><span class="flaticon-online-booking"></span></div>
+	                <h3 class="heading mb-0 pl-3">Reservation</h3>
+                </div>
+                <p>Scheduling or booking appointments for maintenance, repairs, or other services offered by service centers.
+					Customers can reserve a specific time slot to bring their vehicles in for services.</p>
+              </div>
+            </div>
+          </div>
+<!--          <div class="col-md-3 d-flex align-self-stretch ftco-animate">-->
+<!--            <div class="media block-6 services">-->
+<!--              <div class="media-body py-md-4">-->
+<!--              	<div class="d-flex mb-3 align-items-center">-->
+<!--	              	<div class="icon"><span class="flaticon-rent"></span></div>-->
+<!--	                <h3 class="heading mb-0 pl-3">Roadside Repair Services</h3>-->
+<!--                </div>-->
+<!--                <p>On-the-spot repairs for common issues like battery replacements, flat tires, and minor mechanical repairs.</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+			          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services">
+              <div class="media-body py-md-4">
+              	<div class="d-flex mb-3 align-items-center">
+	              	<div class="icon"><span class="flaticon-rent"></span></div>
+	                <h3 class="heading mb-0 pl-3">Jump-Start Services</h3>
+                </div>
+                <p>On-the-spot repairs for common issues like battery replacements, flat tires, and minor mechanical repairs.Assistance with jump-starting a vehicle with a dead battery.</p>
+              </div>
+            </div>
+          </div>
+						          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services">
+              <div class="media-body py-md-4">
+              	<div class="d-flex mb-3 align-items-center">
+	              	<div class="icon"><span class="flaticon-rent"></span></div>
+	                <h3 class="heading mb-0 pl-3">Multi-Vehicle Coverage</h3>
+                </div>
+                <p>Assistance provided for various types of vehicles, including cars, motorcycles, RVs, and trucks.</p>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </section>
+
+    <section class="ftco-section services-section img" style="background-image: url({% static 'user/images/bg_2.jpg' %});">
+    	<div class="overlay"></div>
+    	<div class="container">
+    		<div class="row justify-content-center mb-5">
+          <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
+          	<span class="subheading">Work flow</span>
+            <h2 class="mb-3">How it works</h2>
+          </div>
+        </div>
+    		<div class="row">
+    			<div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services services-2">
+              <div class="media-body py-md-4 text-center">
+              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-route"></span></div>
+                <h3>Search from where you are</h3>
+                <p>Open ORVBA website and search for Mechanic by clicking "Get Started"</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services services-2">
+              <div class="media-body py-md-4 text-center">
+              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-select"></span></div>
+                <h3>Register/Login</h3>
+                <p>If you are already registered just login,if you are not registered ,register first to login</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services services-2">
+              <div class="media-body py-md-4 text-center">
+              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-rent"></span></div>
+                <h3>Choose A Mechanic</h3>
+                <p>Based on your vehicle choose the mechanic you want and send request</p>
+              </div>
+            </div>
+          </div>
+<!--          <div class="col-md-3 d-flex align-self-stretch ftco-animate">-->
+<!--            <div class="media block-6 services services-2">-->
+<!--              <div class="media-body py-md-4 text-center">-->
+<!--              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-review"></span></div>-->
+<!--                <h3>Send Request</h3>-->
+<!--                <p>Send request to the mechanic and contact tem if you want</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+				          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services services-2">
+              <div class="media-body py-md-4 text-center">
+              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-review"></span></div>
+                <h3>Mechanics are near you,have a safe journey</h3>
+                <p>Mechanic will accept/reject request and come to help you.</p>
+              </div>
+            </div>
+          </div>
+
+    		</div>
+    	</div>
+    </section>
+
+
+    <section class="ftco-section testimony-section">
+      <div class="container">
+        <div class="row justify-content-center mb-5">
+          <div class="col-md-7 text-center heading-section ftco-animate">
+          	<span class="subheading">Testimonial</span>
+            <h2 class="mb-3">Happy Clients</h2>
+          </div>
+        </div>
+        <div class="row ftco-animate">
+          <div class="col-md-12">
+            <div class="carousel-testimony owl-carousel ftco-owl">
+                                                  {%for i in data%}
+
+              <div class="item" >
+                <div class="testimony-wrap text-center py-4 pb-5" style="height:200px">
+
+                  <div class="text pt-4">
+                    <p class="mb-4" style=" .break-word {word-break: break-all;}">{{i.message}}</p>
+                    <p class="name">{{i.name}}</p>
+<!--                    <span class="position">Marketing Manager</span>-->
+                  </div>
+                </div>
+
+              </div>
+                                                  {%endfor%}
+
+<!--              <div class="item">-->
+<!--                <div class="testimony-wrap text-center py-4 pb-5">-->
+<!--                  <div class="user-img mb-4" style="background-image: url(images/person_2.jpg)">-->
+<!--                  </div>-->
+<!--                  <div class="text pt-4">-->
+<!--                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>-->
+<!--                    <p class="name">Roger Scott</p>-->
+<!--                    <span class="position">Interface Designer</span>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="item">-->
+<!--                <div class="testimony-wrap text-center py-4 pb-5">-->
+<!--                  <div class="user-img mb-4" style="background-image: url(images/person_3.jpg)">-->
+<!--                  </div>-->
+<!--                  <div class="text pt-4">-->
+<!--                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>-->
+<!--                    <p class="name">Roger Scott</p>-->
+<!--                    <span class="position">UI Designer</span>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="item">-->
+<!--                <div class="testimony-wrap text-center py-4 pb-5">-->
+<!--                  <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">-->
+<!--                  </div>-->
+<!--                  <div class="text pt-4">-->
+<!--                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>-->
+<!--                    <p class="name">Roger Scott</p>-->
+<!--                    <span class="position">Web Developer</span>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="item">-->
+<!--                <div class="testimony-wrap text-center py-4 pb-5">-->
+<!--                  <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">-->
+<!--                  </div>-->
+<!--                  <div class="text pt-4">-->
+<!--                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>-->
+<!--                    <p class="name">Roger Scott</p>-->
+<!--                    <span class="position">System Analyst</span>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--            </div>-->
+          </div>
+        </div>
+      </div>
+    </section>
+
+		<section class="ftco-section ftco-no-pt ftco-no-pb" style="height:600px">
+			<div class="container">
+				<div class="row no-gutters">
+					<div class="col-md-6 p-md-5 img img-2 d-flex justify-content-center align-items-center" style="background-image: url({% static 'user/images/about.jpg' %});">
+					</div>
+					<div class="col-md-6 wrap-about py-md-5 ftco-animate">
+	          <div class="heading-section mb-5 pl-md-5">
+	          	<span class="subheading">About us</span>
+	            <h2 class="mb-4">Choose A Mechanic</h2>
+
+	            <p>Welcome to our Vehicle Breakdown Assistance Service, your reliable partner when you need help on the road.
+					Finding a trustworthy mechanic during an unexpected vehicle breakdown can be challenging, but our platform makes it easy.
+					Simply send a request through our user-friendly interface, and our network of certified mechanics will be notified instantly.
+
+
+</p>
+	            <p>They can locate you using your provided coordinates and reach you quickly to get you back on the road. Our mechanics are experienced and certified,
+					ensuring you receive top-notch service whenever you need it. With transparent pricing and a commitment to quality, we aim to make roadside assistance
+					stress-free and efficient. Trust us to be there for you when it matters most.</p>
+	            <p><a href="{%url 'search_nearest_locations' %}" class="btn btn-primary">Search Mechanic</a></p>
+	          </div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+<!--    <section class="ftco-section">-->
+<!--      <div class="container">-->
+<!--        <div class="row justify-content-center mb-5">-->
+<!--          <div class="col-md-7 heading-section text-center ftco-animate">-->
+<!--          	<span class="subheading">Blog</span>-->
+<!--            <h2>Recent Blog</h2>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="row d-flex">-->
+<!--          <div class="col-md-4 d-flex ftco-animate">-->
+<!--          	<div class="blog-entry justify-content-end">-->
+<!--              <a href="blog-single.html" class="block-20" style="background-image: url({% static 'images/image_1.jpg' %});">-->
+<!--              </a>-->
+<!--              <div class="text pt-4">-->
+<!--              	<div class="meta mb-3">-->
+<!--                  <div><a href="#">July. 24, 2019</a></div>-->
+<!--                  <div><a href="#">Admin</a></div>-->
+<!--                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>-->
+<!--                </div>-->
+<!--                <h3 class="heading mt-2"><a href="#">Why Lead Generation is Key for Business Growth</a></h3>-->
+<!--                <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-md-4 d-flex ftco-animate">-->
+<!--          	<div class="blog-entry justify-content-end">-->
+<!--              <a href="blog-single.html" class="block-20" style="background-image: url({% static 'images/image_2.jpg' %});">-->
+<!--              </a>-->
+<!--              <div class="text pt-4">-->
+<!--              	<div class="meta mb-3">-->
+<!--                  <div><a href="#">July. 24, 2019</a></div>-->
+<!--                  <div><a href="#">Admin</a></div>-->
+<!--                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>-->
+<!--                </div>-->
+<!--                <h3 class="heading mt-2"><a href="#">Why Lead Generation is Key for Business Growth</a></h3>-->
+<!--                <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-md-4 d-flex ftco-animate">-->
+<!--          	<div class="blog-entry">-->
+<!--              <a href="blog-single.html" class="block-20" style="background-image: url({% static 'images/image_3.jpg' %});">-->
+<!--              </a>-->
+<!--              <div class="text pt-4">-->
+<!--              	<div class="meta mb-3">-->
+<!--                  <div><a href="#">July. 24, 2019</a></div>-->
+<!--                  <div><a href="#">Admin</a></div>-->
+<!--                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>-->
+<!--                </div>-->
+<!--                <h3 class="heading mt-2"><a href="#">Why Lead Generation is Key for Business Growth</a></h3>-->
+<!--                <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </section>-->
+
+
+    <footer class="ftco-footer ftco-bg-dark ftco-section">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4">
+              <h2 class="ftco-heading-2">About GET ME HELP</h2>
+              <p>The GET ME HELP aims to provide immediate and efficient roadside support to drivers encountering vehicle malfunctions or emergencies, ensuring timely assistance and enhancing road safety.</p>
+<!--              <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">-->
+<!--                <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>-->
+<!--                <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>-->
+<!--                <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>-->
+<!--              </ul>-->
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4 ml-md-5">
+              <h2 class="ftco-heading-2">Information</h2>
+              <ul class="list-unstyled">
+                <li><a href="{%url 'aboutus'%}" class="py-2 d-block">About</a></li>
+                <li><a href="{%url 'service_page'%}" class="">Services</a></li>
+                <li><a href="{%url 'term_condition' %}" class="py-2 d-block">Term and Conditions</a></li>
+<!--                <li><a href="#" class="py-2 d-block">Best Price Guarantee</a></li>-->
+<!--                <li><a href="#" class="py-2 d-block">Privacy &amp; Cookies Policy</a></li>-->
+              </ul>
+            </div>
+          </div>
+
+                      <div class="col-md">
+            <div class="ftco-footer-widget mb-4 ml-md-5">
+               <h2 class="ftco-heading-2">Customer Support</h2>
+              <ul class="list-unstyled">
+<!--                <li><a href="{%url 'faq_view' %}" class="py-2 d-block">FAQ</a></li>-->
+<!--                <li><a href="#" class="py-2 d-block">Payment Option</a></li>-->
+<!--                <li><a href="#" class="py-2 d-block">Booking Tips</a></li>-->
+                <li><a href="{%url 'how_it_works'%}" class="py-2 d-block">How it works</a></li>
+                <li><a href="{%url 'send_feedback'%}" class="py-2 d-block">Contact Us</a></li>
+              </ul>
+            </div>
+          </div>
+<div class="col-md" >
+             <div class="ftco-footer-widget mb-4 ml-md-5">
+              <h2 class="ftco-heading-2">Have a Questions?</h2>
+            	<div class="block-23 mb-3">
+	              <ul>
+	                <li><span class="icon icon-map-marker"></span><span class="text">Kallar, Rajapuram, Kasaragod, Kerala</span></li>
+	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+91 8139808271</span></a></li>
+	                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@orvba.com</span></a></li>
+	              </ul>
+	            </div>
+            </div>
+          </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+
+            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->ADMIN <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="#" target="_blank">GET ME HELP</a>
+  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+          </div>
+        </div>
+      </div>
+    </footer>
+<div id="notification-area"></div>
+
+
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+<!--<div id="map" style="width:100%; height: 100vh"></div>-->
+
+<div id="popup-container" class="overlay">
+        <div class="popup">
+            <p id="popup-message"></p>
+            <button onclick="closePopup()">Close</button>
+        </div>
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Request notification permission (if needed)
+        if (Notification.permission !== 'granted') {
+            Notification.requestPermission();
+        }
+
+        const userId = '{{ userid }}'; // Ensure this is the correct user ID
+        const chatSocket = new WebSocket(`ws://localhost:8000/ws/chat/`);
+        const notificationSocket = new WebSocket(`ws://localhost:8000/ws/notifications/${userId}/`);
+
+        // Handle chat messages
+        chatSocket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            const message = data.message;
+
+            // Show chat notification if permission is granted
+            if (Notification.permission === 'granted') {
+                new Notification('New Chat Message', {
+                    body: message,
+                    icon: 'icon.png' // Optional: URL to an icon for the notification
+                });
+            }
+
+            // Display in-page chat notification
+            showPopup(message);
+        };
+
+        chatSocket.onopen = function(event) {
+            console.log("Chat WebSocket connection opened.");
+        };
+
+        chatSocket.onclose = function(event) {
+            console.error('Chat WebSocket closed unexpectedly:', event);
+        };
+
+        chatSocket.onerror = function(error) {
+            console.error('Chat WebSocket error:', error);
+        };
+
+        // Handle request update notifications
+        notificationSocket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            const message = data.message;
+
+            // Show browser notification if permission is granted
+            if (Notification.permission === 'granted') {
+                new Notification('Request Update', {
+                    body: message,
+                    icon: 'icon.png' // Optional: URL to an icon for the notification
+                });
+            }
+
+            // Display in-page popup notification
+            showPopup(message);
+        };
+
+        notificationSocket.onopen = function(event) {
+            console.log("Notification WebSocket connection opened.");
+        };
+
+        notificationSocket.onclose = function(event) {
+            console.error('Notification WebSocket closed unexpectedly:', event);
+        };
+
+        notificationSocket.onerror = function(error) {
+            console.error('Notification WebSocket error:', error);
+        };
+    });
+
+    function showPopup(message) {
+        const popupContainer = document.getElementById('popup-container');
+        const popupMessage = document.getElementById('popup-message');
+        popupMessage.innerText = message;
+        popupContainer.style.display = 'flex'; // Show the popup
+    }
+
+    function closePopup() {
+        const popupContainer = document.getElementById('popup-container');
+        popupContainer.style.display = 'none'; // Hide the popup
+    }
+</script>
+  <script src="{% static 'user/js/jquery.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery-migrate-3.0.1.min.js' %}"></script>
+  <script src="{% static 'user/js/popper.min.js' %}"></script>
+  <script src="{% static 'user/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery.easing.1.3.js' %}"></script>
+  <script src="{% static 'user/js/jquery.waypoints.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery.stellar.min.js' %}"></script>
+  <script src="{% static 'user/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery.magnific-popup.min.js' %}"></script>
+  <script src="{% static 'user/js/aos.js' %}"></script>
+  <script src="{% static 'user/js/jquery.animateNumber.min.js' %}"></script>
+  <script src="{% static 'user/js/bootstrap-datepicker.js' %}"></script>
+  <script src="{% static 'user/js/jquery.timepicker.min.js' %}"></script>
+  <script src="{% static 'user/js/scrollax.min.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+  <script src="{% static 'user/js/google-map.js' %}"></script>
+  <script src="{% static 'user/js/main.js' %}"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+ <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+	<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+
+	<script>
+
+		var map = L.map('map').setView([28.2380, 83.9956], 11);
+		mapLink = "<a href='http://openstreetmap.org'>OpenStreetMap</a>";
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: 'Leaflet &copy; ' + mapLink + ', contribution', maxZoom: 18 }).addTo(map);
+
+		var taxiIcon = L.icon({
+			iconUrl: 'img/taxi.png',
+			iconSize: [70, 70]
+		})
+
+		var marker = L.marker([28.2380, 83.9956], { icon: taxiIcon }).addTo(map);
+
+		map.on('click', function (e) {
+			console.log(e)
+			var newMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+			L.Routing.control({
+				waypoints: [
+					L.latLng(28.2380, 83.9956),
+					L.latLng(e.latlng.lat, e.latlng.lng)
+				]
+			}).on('routesfound', function (e) {
+				var routes = e.routes;
+				console.log(routes);
+
+				e.routes[0].coordinates.forEach(function (coord, index) {
+					setTimeout(function () {
+						marker.setLatLng([coord.lat, coord.lng]);
+					}, 100 * index)
+				})
+
+			}).addTo(map);
+		});
+
+
+	</script>
+      <script>
+var x = document.getElementById("demo");
+var y = document.getElementById("demo1");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  x.innerHTML = position.coords.latitude;
+  y.innerHTML=position.coords.location;
+  document.getElementById("demo2").value=position.coords.latitude;
+  document.getElementById("demo3").value=position.coords.longitude;
+
+}
+    </script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+{% if messages %}
+    {% for i in messages %}
+        {%if i.tags == 'warning' %}
+            <script>
+                swal('{{i}}','','warning');
+            </script>
+        {% elif i.tags == 'error' %}
+            <script>
+                swal('{{i}}','','error');
+            </script>
+        {% elif i.tags == 'info' %}
+            <script>
+                swal('{{i}}','','info');
+            </script>
+        {% else %}
+            <script>
+                swal('{{i}}','','success');
+            </script>
+        {%endif%}
+    {%endfor%}
+{%endif%}
+  </body>
+</html>

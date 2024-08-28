@@ -1,0 +1,15 @@
+<!-- templates/email/order_confirmation.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Booking Confirmation</title>
+</head>
+<body>
+    <h1>Booking Confirmation</h1>
+    <p>Dear {{ user.Name }},</p>
+    <p>Your booking for Date {{ order.booking_date }} Time {{order.booking_time}} has been confirmed.</p>
+    <p>Thank you for choosing us!</p>
+    <p>Best regards,<br>The Get Me Help Team</p>
+</body>
+</html>

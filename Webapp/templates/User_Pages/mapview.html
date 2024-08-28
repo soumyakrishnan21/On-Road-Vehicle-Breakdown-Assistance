@@ -1,0 +1,91 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Map View</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        #map { height: 1000px; }
+        .full-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; }
+    </style>
+</head>
+<body>
+
+<div id="map-container">
+    <div id="map"></div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var data = JSON.parse('{{ data|escapejs }}');
+        console.log(data);  // Inspect the data to ensure it's properly formatted
+
+        if (data.length > 0) {
+            var mechanicLat = parseFloat(data[0].mechanic_latitude);
+            var mechanicLng = parseFloat(data[0].mechanic_longitude);
+            var userLat = parseFloat(data[0].user_latitude);
+            var userLng = parseFloat(data[0].user_longitude);
+
+            console.log(mechanicLat);
+            console.log(mechanicLng);
+            console.log(userLat);
+            console.log(userLng);
+
+            // Check if coordinates are valid
+            if (!isNaN(userLat) && !isNaN(userLng) && !isNaN(mechanicLat) && !isNaN(mechanicLat)) {
+                var map = L.map('map').setView([userLat, userLng], 13);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                // Add mechanic marker
+                L.marker([userLat, userLng]).addTo(map)
+                    .bindPopup('User Location')
+                    .openPopup();
+
+                // Add user marker
+                L.marker([mechanicLat, mechanicLng]).addTo(map)
+                    .bindPopup('Mechanic Location')
+                    .openPopup();
+
+                // Routing
+                L.Routing.control({
+                    waypoints: [
+                        L.latLng(mechanicLat, mechanicLng), // Mechanic's location
+                        L.latLng(userLat, userLng)  // User's location
+                    ],
+                    routeWhileDragging: true,
+                    geocoder: L.Control.Geocoder.nominatim(),
+                    reverseWaypoints: true,
+                    showAlternatives: true,
+                    collapsible: true,
+                    language: 'en'
+                }).addTo(map);
+
+                var mapContainer = document.getElementById('map-container');
+                mapContainer.addEventListener('click', function() {
+                    var mapDiv = document.getElementById('map');
+                    mapDiv.classList.toggle('full-screen');
+                    map.invalidateSize();
+                    if (mapDiv.classList.contains('full-screen')) {
+                        map.setView([mechanicLat, mechanicLng], 13);
+                    }
+                });
+            } else {
+                console.error('Invalid coordinates. Please check the data values.');
+            }
+        } else {
+             console.error('No data available to display on the map.');
+        }
+    });
+</script>
+
+</body>
+</html>

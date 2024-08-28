@@ -1,0 +1,856 @@
+
+<!DOCTYPE html>
+{%load static%}
+<html lang="en">
+  <head>
+    <title>Service Center</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'user/css/open-iconic-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/animate.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/magnific-popup.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/aos.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/ionicons.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/bootstrap-datepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/jquery.timepicker.css' %}">
+
+
+    <link rel="stylesheet" href="{% static 'user/css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/icomoon.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/style.css' %}">
+	  <style>
+.containerimg {
+  position: relative;
+  width: 50%;
+}
+
+.imagehover {
+  opacity: 1;
+  display: block;
+
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.containerimg:hover .imagehover {
+  opacity: 0.3;
+}
+
+.containerimg:hover .middle {
+  opacity: 1;
+}
+
+.textimg {
+  background-color: #04AA6D;
+  color: white;
+  font-size: 16px;
+  padding: 16px 32px;
+  width:200px;
+  margin-left:200px
+}
+</style>
+  </head>
+  <body style="width:100%">
+	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+	    <div class="container">
+	      <a class="navbar-brand" href="index.html">GET ME<span>HELP</span></a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> Menu
+	      </button>
+
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item active"><a href="{%url 'service_home' %}" class="nav-link">Home</a></li>
+	          <li class="nav-item"><a href="{%url 'aboutus' %}" class="nav-link">About</a></li>
+
+	          <li class="nav-item"><a href="{% url 'view_accessories_service' %}" class="nav-link">Accessories</a></li>
+<!--	          <li class="nav-item"><a href="{%url 'send_feedback' %}" class="nav-link">Contact</a></li>-->
+				<li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{request.session.Servicename}}</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        {% if request.session.Servicename %}
+                            <a class="dropdown-item" href="{% url 'servicelogout' %}">Logout</a>
+                            <a class="dropdown-item" href="{% url 'view_profile_service' %}">Profile</a>
+                        {% else %}
+                            <a class="dropdown-item" href="{% url 'service_login' %}">Service Center Login</a>
+                        {% endif %}
+                    </div>
+                </li>
+				                        {% if request.session.Servicename %}
+
+		    <li class="nav-item"><a href="{%url 'servicecartpage' %}" class="nav-link">Cart</a></li>
+{% else %}
+                            <a></a>
+                        {% endif %}
+	        </ul>
+	      </div>
+	    </div>
+	  </nav>
+
+    <!-- END nav -->
+
+    <div class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url({% static 'bg3.jpg' %});" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text justify-content-start align-items-center">
+          <div class="col-lg-6 col-md-6 ftco-animate d-flex align-items-end">
+          	<div class="text">
+	            <h1 class="mb-4">Vehicle Breakdown Services,  <span> Anywhere</span> <span>Anytime</span></h1>
+<!--	            <p style="font-size: 18px;">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts</p>-->
+<!--	            <a href="{%url 'userlogin'%}" class="icon-wrap d-flex align-items-center mt-4">-->
+<!--	            	<div class="icon d-flex align-items-center justify-content-center">-->
+<!--	            		<span class="ion-ios-play"></span>-->
+<!--	            	</div>-->
+<!--	            	<div class="heading-title ml-5">-->
+<!--&lt;!&ndash;		            	<span>Let's Start from Here</span>&ndash;&gt;-->
+<!--	            	</div>-->
+<!--	            </a>-->
+            </div>
+          </div>
+          <div class="col-lg-2 col"></div>
+          <div class="col-lg-4 col-md-6 mt-0 mt-md-5 d-flex" >
+<!--          	<form action="{%url 'search_nearest_locations' %}" class="request-form ftco-animate">-->
+<!--          		<h2>Make your trip safe </h2>-->
+<!--	    				<div class="form-group">-->
+<!--&lt;!&ndash;	    					<label for="" class="label">Choose Your location</label>&ndash;&gt;-->
+<!--&lt;!&ndash;	    					<input type="text" class="form-control" placeholder="Search here">&ndash;&gt;-->
+<!--                            <p>In moments of unexpected vehicle failure, breakdown assistance becomes crucial, offering everything from towing to minor repairs right where you are.</p>-->
+<!--	    				</div>-->
+<!--	            <div class="form-group">-->
+<!--	              <input type="submit" value="Get Help Now" class="btn btn-primary py-3 px-4">-->
+<!--	            </div>-->
+<!--	    			</form>-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!--    <section class="ftco-section ftco-no-pb ftco-no-pt">-->
+<!--    	<div class="container">-->
+<!--	    	<div class="row">-->
+<!--					<div class="col-md-12">-->
+<!--						<div class="search-wrap-1 ftco-animate mb-5">-->
+<!--							<form action="{%url 'searchmech' %}" class="search-property-1">-->
+<!--		        		<div class="row">-->
+<!--		        			<div class="col-lg align-items-end">-->
+<!--		        				<div class="form-group">-->
+<!--		        					<label for="#">Select Vehice</label>-->
+<!--		        					<div class="form-field">-->
+<!--		          					<div class="select-wrap">-->
+<!--		                      <div class="icon"><span class="ion-ios-arrow-down"></span></div>-->
+<!--		                      <select name="veh" id="" class="form-control">-->
+<!--								  <option value="">Select Model</option>-->
+<!--								  {%for i in data%}-->
+
+<!--		                      	<option value="{{i.Vehicle}}">{{i.Vehicle}}</option>-->
+<!--								  {%endfor%}-->
+<!--		                      </select>-->
+<!--		                    </div>-->
+<!--				              </div>-->
+<!--			              </div>-->
+<!--		        			</div>-->
+<!--							<a onclick="getLocation()">Get your location</a>-->
+<!--                        <p id="demo" hidden=""></p>-->
+<!--                        <p id="demo1" hidden=""></p>-->
+<!--		        			<div class="col-lg align-items-end">-->
+<!--		        				<div class="form-group">-->
+<!--		        					<label for="#">Current Latitude</label>-->
+<!--		        					<div class="form-field">-->
+<!--		          					<div class="select-wrap">-->
+<!--		                      <div class="icon"><span class="ion-ios-arrow-down"></span></div>-->
+<!--										<input type="text" name="lat" class="form-control" onclick="getLocation()" id="demo2">-->
+<!--&lt;!&ndash;		                      <select name="" id="" class="form-control">&ndash;&gt;-->
+<!--&lt;!&ndash;		                      	<option value="">Select Brand</option>&ndash;&gt;-->
+
+<!--&lt;!&ndash;		                      </select>&ndash;&gt;-->
+<!--		                    </div>-->
+<!--				              </div>-->
+<!--			              </div>-->
+<!--		        			</div>-->
+<!--									        			<div class="col-lg align-items-end">-->
+<!--		        				<div class="form-group">-->
+<!--		        					<label for="#">Current Longitude</label>-->
+<!--		        					<div class="form-field">-->
+<!--		          					<div class="select-wrap">-->
+<!--		                      <div class="icon"><span class="ion-ios-arrow-down"></span></div>-->
+<!--										<input type="text" name="long" class="form-control" id="demo3">-->
+<!--&lt;!&ndash;		                      <select name="" id="" class="form-control">&ndash;&gt;-->
+<!--&lt;!&ndash;		                      	<option value="">Select Brand</option>&ndash;&gt;-->
+
+<!--&lt;!&ndash;		                      </select>&ndash;&gt;-->
+<!--		                    </div>-->
+<!--				              </div>-->
+<!--			              </div>-->
+<!--		        			</div>-->
+
+
+<!--							&lt;!&ndash;		        			<div class="col-lg align-items-end">&ndash;&gt;-->
+<!--&lt;!&ndash;		        				<div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;		        					<label for="#">Year Model</label>&ndash;&gt;-->
+<!--&lt;!&ndash;		        					<div class="form-field">&ndash;&gt;-->
+<!--&lt;!&ndash;		          					<div class="select-wrap">&ndash;&gt;-->
+<!--&lt;!&ndash;		                      <div class="icon"><span class="ion-ios-arrow-down"></span></div>&ndash;&gt;-->
+<!--&lt;!&ndash;		                      <select name="" id="" class="form-control">&ndash;&gt;-->
+<!--&lt;!&ndash;		                      	<option value="">Year Model</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">2019</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">2018</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">2017</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">2016</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">2015</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">2014</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                      </select>&ndash;&gt;-->
+<!--&lt;!&ndash;		                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;				              </div>&ndash;&gt;-->
+<!--&lt;!&ndash;			              </div>&ndash;&gt;-->
+<!--&lt;!&ndash;		        			</div>&ndash;&gt;-->
+<!--&lt;!&ndash;		        			<div class="col-lg align-items-end">&ndash;&gt;-->
+<!--&lt;!&ndash;		        				<div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;		        					<label for="#">Price Limit</label>&ndash;&gt;-->
+<!--&lt;!&ndash;		        					<div class="form-field">&ndash;&gt;-->
+<!--&lt;!&ndash;		          					<div class="select-wrap">&ndash;&gt;-->
+<!--&lt;!&ndash;		                      <div class="icon"><span class="ion-ios-arrow-down"></span></div>&ndash;&gt;-->
+<!--&lt;!&ndash;		                      <select name="" id="" class="form-control">&ndash;&gt;-->
+<!--&lt;!&ndash;		                      	<option value="">$1</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$50</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$100</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$200</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$300</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$400</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$500</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$600</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$700</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$800</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$900</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$1000</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                      </select>&ndash;&gt;-->
+<!--&lt;!&ndash;		                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;				              </div>&ndash;&gt;-->
+<!--&lt;!&ndash;			              </div>&ndash;&gt;-->
+<!--&lt;!&ndash;		        			</div>&ndash;&gt;-->
+<!--		        			<div class="col-lg align-self-end">-->
+<!--		        				<div class="form-group">-->
+<!--		        					<div class="form-field">-->
+<!--				                <input type="submit" value="Search" class="form-control btn btn-primary">-->
+<!--				              </div>-->
+<!--			              </div>-->
+<!--		        			</div>-->
+<!--		        		</div>-->
+<!--		        	</form>-->
+<!--		        </div>-->
+<!--					</div>-->
+<!--	    	</div>-->
+<!--	    </div>-->
+<!--    </section>-->
+
+<!--    <section class="ftco-section services-section ftco-no-pt ftco-no-pb">-->
+<!--      <div class="container">-->
+<!--      	<div class="row justify-content-center">-->
+<!--          <div class="col-md-12 heading-section text-center ftco-animate mb-5">-->
+<!--          	<span class="subheading">Book Your Vehicle Service Now</span>-->
+<!--            <h2 class="mb-2">Choose  Service Centre</h2>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="row d-flex">-->
+<!--          <div class="col-md-6 d-flex align-self-stretch ftco-animate">-->
+<!--            <div class="media block-6 services">-->
+<!--              <div class="media-body py-md-4" style="margin-left:50px">-->
+<!--				  <div class="containerimg">-->
+<!--  <img src="{% static 'service_center/1.jpeg' %}" alt="Avatar" class="imagehover" style="width:500px">-->
+<!--  <div class="middle">-->
+<!--    <div class="textimg">Best Service Centers For You 24/7 Service</div>-->
+<!--  </div>-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--              	<div class="d-flex mb-3 align-items-center">-->
+<!--	              	<div class="icon"></div>-->
+<!--	                <h3 class="heading mb-0 pl-3"> </h3>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-md-6 d-flex align-self-stretch ftco-animate" >-->
+<!--            <div class="media block-6 services" >-->
+<!--              <div class="media-body py-md-4" style="margin-left:100px">-->
+<!--              	<div class="d-flex mb-3 align-items-center">-->
+<!--	              	<div >-->
+<!--					<h4>Search by location</h4>-->
+<!--					</div>-->
+<!--&lt;!&ndash;	                <h3 class="heading mb-0 pl-3">Lots of location</h3>&ndash;&gt;-->
+
+<!--                </div>-->
+<!--				<div class="col-md-12">-->
+<!--						<div class="search-wrap-1 ftco-animate mb-5">-->
+<!--							<form action="{%url 'search_nearest_locations' %}" method="GET" class="search-property-1">-->
+<!--		        		<div class="row" style="text-align:center">-->
+
+<!--&lt;!&ndash;							<a onclick="getLocation()">Get your location</a>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <p id="demo" hidden=""></p>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <p id="demo1" hidden=""></p>&ndash;&gt;-->
+
+<!--									        			<div class="col-lg align-items">-->
+<!--		        				<div class="form-group">-->
+<!--&lt;!&ndash;		        					<label for="#">Current Longitude</label>&ndash;&gt;-->
+<!--		        					<div class="form-field">-->
+<!--		          					<div class="select-wrap">-->
+<!--		                      <div class="icon"></div>-->
+<!--										<input type="text" name="place" class="form-control" id="demo3" placeholder="Type location" value="{{location}}">-->
+<!--&lt;!&ndash;		                      <select name="" id="" class="form-control">&ndash;&gt;-->
+<!--&lt;!&ndash;		                      	<option value="">Select Brand</option>&ndash;&gt;-->
+
+<!--&lt;!&ndash;		                      </select>&ndash;&gt;-->
+<!--		                    </div>-->
+<!--				              </div>-->
+<!--			              </div>-->
+<!--		        			</div>-->
+
+
+<!--							&lt;!&ndash;		        			<div class="col-lg align-items-end">&ndash;&gt;-->
+<!--&lt;!&ndash;		        				<div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;		        					<label for="#">Year Model</label>&ndash;&gt;-->
+<!--&lt;!&ndash;		        					<div class="form-field">&ndash;&gt;-->
+<!--&lt;!&ndash;		          					<div class="select-wrap">&ndash;&gt;-->
+<!--&lt;!&ndash;		                      <div class="icon"><span class="ion-ios-arrow-down"></span></div>&ndash;&gt;-->
+<!--&lt;!&ndash;		                      <select name="" id="" class="form-control">&ndash;&gt;-->
+<!--&lt;!&ndash;		                      	<option value="">Year Model</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">2019</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">2018</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">2017</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">2016</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">2015</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">2014</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                      </select>&ndash;&gt;-->
+<!--&lt;!&ndash;		                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;				              </div>&ndash;&gt;-->
+<!--&lt;!&ndash;			              </div>&ndash;&gt;-->
+<!--&lt;!&ndash;		        			</div>&ndash;&gt;-->
+<!--&lt;!&ndash;		        			<div class="col-lg align-items-end">&ndash;&gt;-->
+<!--&lt;!&ndash;		        				<div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;		        					<label for="#">Price Limit</label>&ndash;&gt;-->
+<!--&lt;!&ndash;		        					<div class="form-field">&ndash;&gt;-->
+<!--&lt;!&ndash;		          					<div class="select-wrap">&ndash;&gt;-->
+<!--&lt;!&ndash;		                      <div class="icon"><span class="ion-ios-arrow-down"></span></div>&ndash;&gt;-->
+<!--&lt;!&ndash;		                      <select name="" id="" class="form-control">&ndash;&gt;-->
+<!--&lt;!&ndash;		                      	<option value="">$1</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$50</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$100</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$200</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$300</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$400</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$500</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$600</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$700</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$800</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$900</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                        <option value="">$1000</option>&ndash;&gt;-->
+<!--&lt;!&ndash;		                      </select>&ndash;&gt;-->
+<!--&lt;!&ndash;		                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;				              </div>&ndash;&gt;-->
+<!--&lt;!&ndash;			              </div>&ndash;&gt;-->
+<!--&lt;!&ndash;		        			</div>&ndash;&gt;-->
+<!--		        			<div class="col-lg align-self-end">-->
+<!--		        				<div class="form-group">-->
+<!--		        					<div class="form-field">-->
+<!--				                <input type="submit" value="Search" class="form-control btn btn-primary">-->
+<!--				              </div>-->
+<!--			              </div>-->
+<!--		        			</div>-->
+<!--		        		</div>-->
+<!--		        	</form>-->
+<!--		        </div>-->
+<!--					</div>-->
+
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </section>-->
+    <section class="ftco-section services-section ftco-no-pt ftco-no-pb">
+      <div class="container">
+      	<div class="row justify-content-center">
+          <div class="col-md-12 heading-section text-center ftco-animate mb-5">
+<!--          	<span class="subheading">Our Services</span>-->
+<!--            <h2 class="mb-2">Our Services</h2>-->
+          </div>
+        </div>
+        <div class="row d-flex">
+<!--            <div class="col-md-3 d-flex align-self-stretch ftco-animate">-->
+<!--            <div class="media block-6 services">-->
+<!--              <div class="media-body py-md-4">-->
+<!--              	<div class="d-flex mb-3 align-items-center">-->
+<!--					<div class="icon"><span class="flaticon-customer-support"></span></div><h3 class="heading mb-0 pl-3">Job Management</h3>-->
+<!--                </div>-->
+
+
+<!--					 <div class="containerimg">-->
+<!--  <img src="{% static 'service_center/jb1.webp' %}" alt="Avatar" class="imagehover" style="width:300px">-->
+<!--  <div class="middle">-->
+<!--    <div class="textimg">Manage Regquests Here</div>-->
+<!--  </div>-->
+<!--&lt;!&ndash;					<img src="{% static 'service_center/jb1.webp' %}" width="300px">&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;                <p>A small river named Duden flows by their place and supplies it with you</p>&ndash;&gt;-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--		  </div>-->
+			        <a href="{%url 'view_booking'%}"><div class="col-md-3 d-flex align-self-stretch ftco-animate" style="margin-left:100px">
+            <div class="media block-6 services">
+              <div class="media-body py-md-4">
+              	<div class="d-flex mb-3 align-items-center">
+					<div class="icon"><span class="flaticon-customer-support"></span></div><h3 class="heading mb-0 pl-3">Booking Management</h3>
+                </div>
+
+
+					 <div class="containerimg">
+  <img src="{% static 'service_center/bk1.jpeg' %}" alt="Avatar" class="imagehover" style="width:300px;height:200px">
+  <div class="middle">
+    <div class="textimg">Manage Bookings Here</div>
+  </div>
+<!--					<img src="{% static 'service_center/jb1.webp' %}" width="300px">-->
+
+
+<!--                <p>A small river named Duden flows by their place and supplies it with you</p>-->
+              </div>
+            </div>
+          </div>
+					</div></a>
+<!--			          <div class="col-md-3 d-flex align-self-stretch ftco-animate" style="margin-left:100px">-->
+<!--            <div class="media block-6 services">-->
+<!--              <div class="media-body py-md-4">-->
+<!--              	<div class="d-flex mb-3 align-items-center">-->
+<!--					<div class="icon"><span class="flaticon-customer-support"></span></div><h3 class="heading mb-0 pl-3">Customer Overview</h3>-->
+<!--                </div>-->
+
+
+<!--					 <div class="containerimg">-->
+<!--  <img src="{% static 'service_center/cu1.jpeg' %}" alt="Avatar" class="imagehover" style="width:300px;height:200px">-->
+<!--  <div class="middle">-->
+<!--    <div class="textimg">Overview</div>-->
+<!--  </div>-->
+<!--&lt;!&ndash;					<img src="{% static 'service_center/jb1.webp' %}" width="300px">&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;                <p>A small river named Duden flows by their place and supplies it with you</p>&ndash;&gt;-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--		  </div>-->
+
+<!--          <div class="col-md-3 d-flex align-self-stretch ftco-animate">-->
+<!--            <div class="media block-6 services">-->
+<!--              <div class="media-body py-md-4">-->
+<!--              	<div class="d-flex mb-3 align-items-center">-->
+<!--	              	<div class="icon"><span class="flaticon-route"></span></div>-->
+<!--	                <h3 class="heading mb-0 pl-3">Booking Management</h3>-->
+<!--                </div>-->
+<!--                <p>A small river named Duden flows by their place and supplies it with you</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-md-3 d-flex align-self-stretch ftco-animate">-->
+<!--            <div class="media block-6 services">-->
+<!--              <div class="media-body py-md-4">-->
+<!--              	<div class="d-flex mb-3 align-items-center">-->
+<!--	              	<div class="icon"><span class="flaticon-online-booking"></span></div>-->
+<!--	                <h3 class="heading mb-0 pl-3">Customer Overview</h3>-->
+<!--                </div>-->
+<!--                <p>A small river named Duden flows by their place and supplies it with you</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-md-3 d-flex align-self-stretch ftco-animate">-->
+<!--            <div class="media block-6 services">-->
+<!--              <div class="media-body py-md-4">-->
+<!--              	<div class="d-flex mb-3 align-items-center">-->
+<!--	              	<div class="icon"><span class="flaticon-rent"></span></div>-->
+<!--	                <h3 class="heading mb-0 pl-3">Rental Cars</h3>-->
+<!--                </div>-->
+<!--                <p>A small river named Duden flows by their place and supplies it with you</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+        </div>
+      </div>
+    </section>
+
+    <section class="ftco-section services-section ftco-no-pt ftco-no-pb" style="margin-top:100px">
+      <div class="container">
+      	<div class="row justify-content-center">
+          <div class="col-md-12 heading-section text-center ftco-animate mb-5">
+          	<span class="subheading">Our Services</span>
+            <h2 class="mb-2">Our Services</h2>
+          </div>
+        </div>
+        <div class="row d-flex">
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services">
+              <div class="media-body py-md-4">
+              	<div class="d-flex mb-3 align-items-center">
+	              	<div class="icon"><span class="flaticon-customer-support"></span></div>
+	                <h3 class="heading mb-0 pl-3">24/7 Vehicle Support</h3>
+                </div>
+                <p>Providing continuous assistance and maintenance for vehicles around the clock,
+                    ensuring drivers have access to help whenever they encounter issues or breakdowns.
+                    </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services">
+              <div class="media-body py-md-4">
+              	<div class="d-flex mb-3 align-items-center">
+	              	<div class="icon"><span class="flaticon-online-booking"></span></div>
+	                <h3 class="heading mb-0 pl-3">Reservation</h3>
+                </div>
+                <p>Scheduling or booking appointments for maintenance, repairs, or other services offered by service centers.
+					Customers can reserve a specific time slot to bring their vehicles in for services.</p>
+              </div>
+            </div>
+          </div>
+<!--          <div class="col-md-3 d-flex align-self-stretch ftco-animate">-->
+<!--            <div class="media block-6 services">-->
+<!--              <div class="media-body py-md-4">-->
+<!--              	<div class="d-flex mb-3 align-items-center">-->
+<!--	              	<div class="icon"><span class="flaticon-rent"></span></div>-->
+<!--	                <h3 class="heading mb-0 pl-3">Roadside Repair Services</h3>-->
+<!--                </div>-->
+<!--                <p>On-the-spot repairs for common issues like battery replacements, flat tires, and minor mechanical repairs.</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+			          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services">
+              <div class="media-body py-md-4">
+              	<div class="d-flex mb-3 align-items-center">
+	              	<div class="icon"><span class="flaticon-rent"></span></div>
+	                <h3 class="heading mb-0 pl-3">Jump-Start Services</h3>
+                </div>
+                <p>On-the-spot repairs for common issues like battery replacements, flat tires, and minor mechanical repairsAssistance with jump-starting a vehicle with a dead battery.</p>
+              </div>
+            </div>
+          </div>
+						          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services">
+              <div class="media-body py-md-4">
+              	<div class="d-flex mb-3 align-items-center">
+	              	<div class="icon"><span class="flaticon-rent"></span></div>
+	                <h3 class="heading mb-0 pl-3">Multi-Vehicle Coverage</h3>
+                </div>
+                <p>Assistance provided for various types of vehicles, including cars, motorcycles, RVs, and trucks.</p>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </section>
+
+    <section class="ftco-section services-section img" style="background-image: url({% static 'user/images/bg_2.jpg' %});">
+    	<div class="overlay"></div>
+    	<div class="container">
+    		<div class="row justify-content-center mb-5">
+          <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
+          	<span class="subheading">Work flow</span>
+            <h2 class="mb-3">How it works</h2>
+          </div>
+        </div>
+    		<div class="row">
+    			<div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services services-2">
+              <div class="media-body py-md-4 text-center">
+              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-route"></span></div>
+                <h3>Search from where you are</h3>
+                <p>Open ORVBA website and search for Mechanic by clicking "Get Started"</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services services-2">
+              <div class="media-body py-md-4 text-center">
+              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-select"></span></div>
+                <h3>Register/Login</h3>
+                <p>If you are already registered just login,if you are not registered ,register first to login</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services services-2">
+              <div class="media-body py-md-4 text-center">
+              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-rent"></span></div>
+                <h3>Choose A Mechanic</h3>
+                <p>Based on your vehicle choose the mechanic you want and send request</p>
+              </div>
+            </div>
+          </div>
+<!--          <div class="col-md-3 d-flex align-self-stretch ftco-animate">-->
+<!--            <div class="media block-6 services services-2">-->
+<!--              <div class="media-body py-md-4 text-center">-->
+<!--              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-review"></span></div>-->
+<!--                <h3>Send Request</h3>-->
+<!--                <p>Send request to the mechanic and contact tem if you want</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+				          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services services-2">
+              <div class="media-body py-md-4 text-center">
+              	<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-review"></span></div>
+                <h3>Mechanics are near you,have a safe journey</h3>
+                <p>Mechanic will accept/reject request and come to do the work.</p>
+              </div>
+            </div>
+          </div>
+
+    		</div>
+    	</div>
+    </section>
+
+    <section class="ftco-section testimony-section">
+      <div class="container">
+        <div class="row justify-content-center mb-5">
+          <div class="col-md-7 text-center heading-section ftco-animate">
+          	<span class="subheading">Testimonial</span>
+            <h2 class="mb-3">Happy Clients</h2>
+          </div>
+        </div>
+        <div class="row ftco-animate">
+          <div class="col-md-12">
+            <div class="carousel-testimony owl-carousel ftco-owl">
+             {%for i in data%}
+
+              <div class="item">
+                <div class="testimony-wrap text-center py-4 pb-5">
+                  <div class="user-img mb-4" style="">
+                  </div>
+                  <div class="text pt-4">
+                    <p class="mb-4" style=" .break-word {word-break: break-all;}">{{i.message}}</p>
+                    <p class="name">{{i.name}}</p>
+<!--                    <span class="position">Marketing Manager</span>-->
+                  </div>
+                </div>
+
+              </div>
+                                                  {%endfor%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+		<section class="ftco-section ftco-no-pt ftco-no-pb">
+			<div class="container">
+				<div class="row no-gutters">
+					<div class="col-md-6 p-md-5 img img-2 d-flex justify-content-center align-items-center" style="background-image: url({% static 'user/images/about.jpg' %});">
+					</div>
+					<div class="col-md-6 wrap-about py-md-5 ftco-animate">
+	          <div class="heading-section mb-5 pl-md-5">
+	          	<span class="subheading">About us</span>
+	            <h2 class="mb-4">Choose A Mechanic</h2>
+
+	            <p>Welcome to our Vehicle Breakdown Assistance Service, your reliable partner when you need help on the road.
+					Finding a trustworthy mechanic during an unexpected vehicle breakdown can be challenging, but our platform makes it easy.
+					Simply send a request through our user-friendly interface, and our network of certified mechanics will be notified instantly.
+
+
+</p>
+	            <p>They can locate you using your provided coordinates and reach you quickly to get you back on the road. Our mechanics are experienced and certified,
+					ensuring you receive top-notch service whenever you need it. With transparent pricing and a commitment to quality, we aim to make roadside assistance
+					stress-free and efficient. Trust us to be there for you when it matters most.</p>
+	            <p><a href="{%url 'search_nearest_locations' %}" class="btn btn-primary">Search Mechanic</a></p>
+	          </div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+<!--    <section class="ftco-section">-->
+<!--      <div class="container">-->
+<!--        <div class="row justify-content-center mb-5">-->
+<!--          <div class="col-md-7 heading-section text-center ftco-animate">-->
+<!--          	<span class="subheading">Blog</span>-->
+<!--            <h2>Recent Blog</h2>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="row d-flex">-->
+<!--          <div class="col-md-4 d-flex ftco-animate">-->
+<!--          	<div class="blog-entry justify-content-end">-->
+<!--              <a href="blog-single.html" class="block-20" style="background-image: url({% static 'images/image_1.jpg' %});">-->
+<!--              </a>-->
+<!--              <div class="text pt-4">-->
+<!--              	<div class="meta mb-3">-->
+<!--                  <div><a href="#">July. 24, 2019</a></div>-->
+<!--                  <div><a href="#">Admin</a></div>-->
+<!--                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>-->
+<!--                </div>-->
+<!--                <h3 class="heading mt-2"><a href="#">Why Lead Generation is Key for Business Growth</a></h3>-->
+<!--                <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-md-4 d-flex ftco-animate">-->
+<!--          	<div class="blog-entry justify-content-end">-->
+<!--              <a href="blog-single.html" class="block-20" style="background-image: url({% static 'images/image_2.jpg' %});">-->
+<!--              </a>-->
+<!--              <div class="text pt-4">-->
+<!--              	<div class="meta mb-3">-->
+<!--                  <div><a href="#">July. 24, 2019</a></div>-->
+<!--                  <div><a href="#">Admin</a></div>-->
+<!--                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>-->
+<!--                </div>-->
+<!--                <h3 class="heading mt-2"><a href="#">Why Lead Generation is Key for Business Growth</a></h3>-->
+<!--                <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-md-4 d-flex ftco-animate">-->
+<!--          	<div class="blog-entry">-->
+<!--              <a href="blog-single.html" class="block-20" style="background-image: url({% static 'images/image_3.jpg' %});">-->
+<!--              </a>-->
+<!--              <div class="text pt-4">-->
+<!--              	<div class="meta mb-3">-->
+<!--                  <div><a href="#">July. 24, 2019</a></div>-->
+<!--                  <div><a href="#">Admin</a></div>-->
+<!--                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>-->
+<!--                </div>-->
+<!--                <h3 class="heading mt-2"><a href="#">Why Lead Generation is Key for Business Growth</a></h3>-->
+<!--                <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </section>-->
+
+    <footer class="ftco-footer ftco-bg-dark ftco-section">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4">
+              <h2 class="ftco-heading-2">About Autoroad</h2>
+              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+              <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
+                <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
+                <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
+                <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4 ml-md-5">
+              <h2 class="ftco-heading-2">Information</h2>
+              <ul class="list-unstyled">
+                <li><a href="#" class="py-2 d-block">About</a></li>
+                <li><a href="#" class="py-2 d-block">Services</a></li>
+                <li><a href="#" class="py-2 d-block">Term and Conditions</a></li>
+                <li><a href="#" class="py-2 d-block">Best Price Guarantee</a></li>
+                <li><a href="#" class="py-2 d-block">Privacy &amp; Cookies Policy</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md">
+             <div class="ftco-footer-widget mb-4">
+              <h2 class="ftco-heading-2">Customer Support</h2>
+              <ul class="list-unstyled">
+                <li><a href="#" class="py-2 d-block">FAQ</a></li>
+                <li><a href="#" class="py-2 d-block">Payment Option</a></li>
+                <li><a href="#" class="py-2 d-block">Booking Tips</a></li>
+                <li><a href="#" class="py-2 d-block">How it works</a></li>
+                <li><a href="#" class="py-2 d-block">Contact Us</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4">
+            	<h2 class="ftco-heading-2">Have a Questions?</h2>
+            	<div class="block-23 mb-3">
+	              <ul>
+	                <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
+	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li>
+	                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a></li>
+	              </ul>
+	            </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+
+            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+  <script src="{% static 'user/js/jquery.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery-migrate-3.0.1.min.js' %}"></script>
+  <script src="{% static 'user/js/popper.min.js' %}"></script>
+  <script src="{% static 'user/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery.easing.1.3.js' %}"></script>
+  <script src="{% static 'user/js/jquery.waypoints.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery.stellar.min.js' %}"></script>
+  <script src="{% static 'user/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery.magnific-popup.min.js' %}"></script>
+  <script src="{% static 'user/js/aos.js' %}"></script>
+  <script src="{% static 'user/js/jquery.animateNumber.min.js' %}"></script>
+  <script src="{% static 'user/js/bootstrap-datepicker.js' %}"></script>
+  <script src="{% static 'user/js/jquery.timepicker.min.js' %}"></script>
+  <script src="{% static 'user/js/scrollax.min.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+  <script src="{% static 'user/js/google-map.js' %}"></script>
+  <script src="{% static 'user/js/main.js' %}"></script>
+ <script>
+var x = document.getElementById("demo");
+var y = document.getElementById("demo1");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  x.innerHTML = position.coords.latitude;
+  y.innerHTML=position.coords.location;
+  document.getElementById("demo2").value=position.coords.latitude;
+  document.getElementById("demo3").value=position.coords.longitude;
+
+}
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{%extends 'index.html' %}
+{%block content%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="col-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Update Product Details</h4>
+<!--                  <p class="card-description">-->
+<!--                    Basic form elements-->
+<!--                  </p>-->
+                  <form class="forms-sample" action="{%url 'update_product' pid=data.id%}" method="post" enctype="multipart/form-data">
+                   {%csrf_token%}
+                    <div class="form-group">
+                      <label for="exampleInputName1">Product Name</label>
+                      <input type="text" value="{{data.Productname}}" class="form-control" id="exampleInputName1" name="pname" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputCity1" >Category</label>
+                        <select name="category" class="form-control">
+                            <option>{{data.Category}}</option>
+                            {%for i in cat%}
+                            <option>{{i.Categoryname}}</option>
+                            {%endfor%}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputCity1">Picture</label>
+                        <img src="{{data.Image.url}}" height="150px" width="150px">
+                      <input type="file" name="picture" class="form-control" id="exampleInputCity1" placeholder="Location">
+                    </div>
+                      <div class="form-group">
+                      <label for="exampleInputCity1">Price</label>
+                      <input type="number" value="{{data.Price}}" name="price" class="form-control" id="exampleInputCity1" placeholder="Price">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleTextarea1">Description</label>
+                      <textarea class="form-control" id="exampleTextarea1" rows="4" name="description">{{data.Description}}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Update</button>
+                    <button class="btn btn-light">Cancel</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+</body>
+</html>
+{%endblock%}

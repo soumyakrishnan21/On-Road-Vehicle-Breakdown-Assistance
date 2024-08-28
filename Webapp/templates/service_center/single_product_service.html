@@ -1,0 +1,552 @@
+
+<!DOCTYPE html>
+{%load static%}
+<html lang="en">
+  <head>
+    <title>Product</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'user/css/open-iconic-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/animate.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/magnific-popup.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/aos.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/ionicons.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'user/css/bootstrap-datepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/jquery.timepicker.css' %}">
+
+
+    <link rel="stylesheet" href="{% static 'user/css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/icomoon.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/style.css' %}">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  </head>
+  <body style="width:100%">
+
+	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+	    <div class="container">
+	      <a class="navbar-brand" href="index.html">Auto<span>road</span></a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> Menu
+	      </button>
+
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item active"><a href="{%url 'service_home' %}" class="nav-link">Home</a></li>
+	          <li class="nav-item"><a href="{%url 'aboutus' %}" class="nav-link">About</a></li>
+
+	          <li class="nav-item"><a href="{% url 'view_accessories_service' %}" class="nav-link">Accessories</a></li>
+<!--	          <li class="nav-item"><a href="{%url 'send_feedback' %}" class="nav-link">Contact</a></li>-->
+				<li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{request.session.Servicename}}</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        {% if request.session.Servicename %}
+                            <a class="dropdown-item" href="{% url 'servicelogout' %}">Logout</a>
+                            <a class="dropdown-item" href="{% url 'view_profile_service' %}">Profile</a>
+                        {% else %}
+                            <a class="dropdown-item" href="{% url 'service_login' %}">Service Center Login</a>
+                        {% endif %}
+                    </div>
+                </li>
+				                        {% if request.session.Servicename %}
+
+		    <li class="nav-item"><a href="{%url 'servicecartpage' %}" class="nav-link">Cart</a></li>
+{% else %}
+                            <a></a>
+                        {% endif %}
+	        </ul>
+	      </div>
+	    </div>
+	  </nav>
+    <!-- END nav -->
+
+    <section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url({% static 'user/images/bg_2.jpg' %});" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+          <div class="col-md-9 ftco-animate pb-5">
+<!--          	<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Car details <i class="ion-ios-arrow-forward"></i></span></p>-->
+            <h1 class="mb-3 bread">Product Details</h1>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ftco-section ftco-car-details">
+      <div class="container">
+      	<div class="row justify-content-center">
+      		<div class="col-md-12">
+
+
+      			<div class="car-details" >
+      				<div class="img" style="background-image: url({{data.Image.url}});height:400px;width:450px" ></div>
+      				<div class="text text-center" style="margin-left:500px;margin-top:-450px">
+      					<span class="subheading"></span>
+      					<h2>{{data.Productname}}</h2><br><br>
+
+						<label></label><h4>Price :{{data.Price}}</h4>
+      				</div>
+      			</div>
+      		</div>
+      	</div>
+      	<div class="row"  >
+      		<div class="col-md-12 pills">
+						<div class="bd-example bd-example-tabs">
+							<div class="d-flex justify-content-center" style="margin-left:500px">
+								<p>{{data.Description}}</p>
+							</div>
+							<div style="margin-left:800px">
+								<form action="{%url 'addcart_service' %}" method="post">
+								{%csrf_token%}
+								<input type="hidden" name="price" id="price" value=" {{data.Price}}"><br>
+								<input type="number" placeholder="0" name="qty" min="1"  id="qty" style="border: 1px solid #ddd;border-radius: 5px;padding: 10px;width: 200px;margin-bottom: 15px;"><br><br>
+								<input type="hidden" readonly value="{{data.Productname}}" id="pname" name="pname">
+								<input type="hidden" readonly value="{{request.session.Mechname}}"   id="uname" name="uname">
+								<input type="text" placeholder="Total Price" id="total" style="border: 1px solid #ddd;border-radius: 5px;padding: 10px;width: 200px;margin-bottom: 15px;" name="totalprice"><br><br>
+							<button style="align:center;width:200px" class="btn btn-primary mb-3">ADD TO CART</button>
+
+
+							</form>
+							</div>
+
+
+						  <div class="tab-content" id="pills-tabContent">
+						    <div class="tab-pane fade show active" id="pills-description" role="tabpanel" aria-labelledby="pills-description-tab">
+<!--						    	<div class="row">-->
+<!--						    		<div class="col-md-4">-->
+<!--						    			<ul class="features">-->
+<!--						    				<li class="check"><span class="ion-ios-checkmark"></span>Airconditions</li>-->
+<!--						    				<li class="check"><span class="ion-ios-checkmark"></span>Child Seat</li>-->
+<!--						    				<li class="check"><span class="ion-ios-checkmark"></span>GPS</li>-->
+<!--						    				<li class="check"><span class="ion-ios-checkmark"></span>Luggage</li>-->
+<!--						    				<li class="check"><span class="ion-ios-checkmark"></span>Music</li>-->
+<!--						    			</ul>-->
+<!--						    		</div>-->
+<!--						    		<div class="col-md-4">-->
+<!--						    			<ul class="features">-->
+<!--						    				<li class="check"><span class="ion-ios-checkmark"></span>Seat Belt</li>-->
+<!--						    				<li class="remove"><span class="ion-ios-close"></span>Sleeping Bed</li>-->
+<!--						    				<li class="check"><span class="ion-ios-checkmark"></span>Water</li>-->
+<!--						    				<li class="check"><span class="ion-ios-checkmark"></span>Bluetooth</li>-->
+<!--						    				<li class="remove"><span class="ion-ios-close"></span>Onboard computer</li>-->
+<!--						    			</ul>-->
+<!--						    		</div>-->
+<!--						    		<div class="col-md-4">-->
+<!--						    			<ul class="features">-->
+<!--						    				<li class="check"><span class="ion-ios-checkmark"></span>Audio input</li>-->
+<!--						    				<li class="check"><span class="ion-ios-checkmark"></span>Long Term Trips</li>-->
+<!--						    				<li class="check"><span class="ion-ios-checkmark"></span>Car Kit</li>-->
+<!--						    				<li class="check"><span class="ion-ios-checkmark"></span>Remote central locking</li>-->
+<!--						    				<li class="check"><span class="ion-ios-checkmark"></span>Climate control</li>-->
+<!--						    			</ul>-->
+<!--						    		</div>-->
+<!--						    	</div>-->
+						    </div>
+
+						    <div class="tab-pane fade" id="pills-manufacturer" role="tabpanel" aria-labelledby="pills-manufacturer-tab">
+									<p>{{data.Description}}</p>
+						    </div>
+
+<!--						    <div class="tab-pane fade" id="pills-review" role="tabpanel" aria-labelledby="pills-review-tab">-->
+<!--						      <div class="row">-->
+<!--							   		<div class="col-md-7">-->
+<!--							   			<h3 class="head">23 Reviews</h3>-->
+<!--							   			<div class="review d-flex">-->
+<!--									   		<div class="user-img" style="background-image: url(images/person_1.jpg)"></div>-->
+<!--									   		<div class="desc">-->
+<!--									   			<h4>-->
+<!--									   				<span class="text-left">Jacob Webb</span>-->
+<!--									   				<span class="text-right">14 March 2018</span>-->
+<!--									   			</h4>-->
+<!--									   			<p class="star">-->
+<!--									   				<span>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--								   					</span>-->
+<!--								   					<span class="text-right"><a href="#" class="reply"><i class="icon-reply"></i></a></span>-->
+<!--									   			</p>-->
+<!--									   			<p>When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov</p>-->
+<!--									   		</div>-->
+<!--									   	</div>-->
+<!--									   	<div class="review d-flex">-->
+<!--									   		<div class="user-img" style="background-image: url(images/person_2.jpg)"></div>-->
+<!--									   		<div class="desc">-->
+<!--									   			<h4>-->
+<!--									   				<span class="text-left">Jacob Webb</span>-->
+<!--									   				<span class="text-right">14 March 2018</span>-->
+<!--									   			</h4>-->
+<!--									   			<p class="star">-->
+<!--									   				<span>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--								   					</span>-->
+<!--								   					<span class="text-right"><a href="#" class="reply"><i class="icon-reply"></i></a></span>-->
+<!--									   			</p>-->
+<!--									   			<p>When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov</p>-->
+<!--									   		</div>-->
+<!--									   	</div>-->
+<!--									   	<div class="review d-flex">-->
+<!--									   		<div class="user-img" style="background-image: url(images/person_3.jpg)"></div>-->
+<!--									   		<div class="desc">-->
+<!--									   			<h4>-->
+<!--									   				<span class="text-left">Jacob Webb</span>-->
+<!--									   				<span class="text-right">14 March 2018</span>-->
+<!--									   			</h4>-->
+<!--									   			<p class="star">-->
+<!--									   				<span>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--								   					</span>-->
+<!--								   					<span class="text-right"><a href="#" class="reply"><i class="icon-reply"></i></a></span>-->
+<!--									   			</p>-->
+<!--									   			<p>When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov</p>-->
+<!--									   		</div>-->
+<!--									   	</div>-->
+<!--							   		</div>-->
+<!--							   		<div class="col-md-5">-->
+<!--							   			<div class="rating-wrap">-->
+<!--								   			<h3 class="head">Give a Review</h3>-->
+<!--								   			<div class="wrap">-->
+<!--									   			<p class="star">-->
+<!--									   				<span>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					(98%)-->
+<!--								   					</span>-->
+<!--								   					<span>20 Reviews</span>-->
+<!--									   			</p>-->
+<!--									   			<p class="star">-->
+<!--									   				<span>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					(85%)-->
+<!--								   					</span>-->
+<!--								   					<span>10 Reviews</span>-->
+<!--									   			</p>-->
+<!--									   			<p class="star">-->
+<!--									   				<span>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					(70%)-->
+<!--								   					</span>-->
+<!--								   					<span>5 Reviews</span>-->
+<!--									   			</p>-->
+<!--									   			<p class="star">-->
+<!--									   				<span>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					(10%)-->
+<!--								   					</span>-->
+<!--								   					<span>0 Reviews</span>-->
+<!--									   			</p>-->
+<!--									   			<p class="star">-->
+<!--									   				<span>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					<i class="ion-ios-star"></i>-->
+<!--									   					(0%)-->
+<!--								   					</span>-->
+<!--								   					<span>0 Reviews</span>-->
+<!--									   			</p>-->
+<!--									   		</div>-->
+<!--								   		</div>-->
+<!--							   		</div>-->
+<!--							   	</div>-->
+<!--						    </div>-->
+						  </div>
+						</div>
+		      </div>
+				</div>
+      </div>
+    </section>
+
+<!--    <section class="ftco-section ftco-no-pt">-->
+<!--    	<div class="container-fluid px-4">-->
+<!--    		<div class="row justify-content-center">-->
+<!--          <div class="col-md-12 heading-section text-center ftco-animate mb-5">-->
+<!--          	<span class="subheading">Choose Car</span>-->
+<!--            <h2 class="mb-2">Related Cars</h2>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--    		<div class="row">-->
+<!--    			<div class="col-md-3">-->
+<!--    				<div class="car-wrap ftco-animate">-->
+<!--    					<div class="img d-flex align-items-end" style="background-image: url(images/car-1.jpg);">-->
+<!--    						<div class="price-wrap d-flex">-->
+<!--    							<span class="rate">$25</span>-->
+<!--    							<p class="from-day">-->
+<!--    								<span>From</span>-->
+<!--    								<span>/Day</span>-->
+<!--    							</p>-->
+<!--    						</div>-->
+<!--    					</div>-->
+<!--    					<div class="text p-4 text-center">-->
+<!--    						<h2 class="mb-0"><a href="#">Mercedes Grand Sedan</a></h2>-->
+<!--    						<span>Audi</span>-->
+<!--    						<p class="d-flex mb-0 d-block"><a href="#" class="btn btn-black btn-outline-black mr-1">Book now</a> <a href="#" class="btn btn-black btn-outline-black ml-1">Details</a></p>-->
+<!--    					</div>-->
+<!--    				</div>-->
+<!--    			</div>-->
+<!--    			<div class="col-md-3">-->
+<!--    				<div class="car-wrap ftco-animate">-->
+<!--    					<div class="img d-flex align-items-end" style="background-image: url(images/car-2.jpg);">-->
+<!--    						<div class="price-wrap d-flex">-->
+<!--    							<span class="rate">$25</span>-->
+<!--    							<p class="from-day">-->
+<!--    								<span>From</span>-->
+<!--    								<span>/Day</span>-->
+<!--    							</p>-->
+<!--    						</div>-->
+<!--    					</div>-->
+<!--    					<div class="text p-4 text-center">-->
+<!--    						<h2 class="mb-0"><a href="#">Mercedes Grand Sedan</a></h2>-->
+<!--    						<span>Ford</span>-->
+<!--    						<p class="d-flex mb-0 d-block"><a href="#" class="btn btn-black btn-outline-black mr-1">Book now</a> <a href="#" class="btn btn-black btn-outline-black ml-1">Details</a></p>-->
+<!--    					</div>-->
+<!--    				</div>-->
+<!--    			</div>-->
+<!--    			<div class="col-md-3">-->
+<!--    				<div class="car-wrap ftco-animate">-->
+<!--    					<div class="img d-flex align-items-end" style="background-image: url(images/car-3.jpg);">-->
+<!--    						<div class="price-wrap d-flex">-->
+<!--    							<span class="rate">$25</span>-->
+<!--    							<p class="from-day">-->
+<!--    								<span>From</span>-->
+<!--    								<span>/Day</span>-->
+<!--    							</p>-->
+<!--    						</div>-->
+<!--    					</div>-->
+<!--    					<div class="text p-4 text-center">-->
+<!--    						<h2 class="mb-0"><a href="#">Mercedes Grand Sedan</a></h2>-->
+<!--    						<span>Cheverolet</span>-->
+<!--    						<p class="d-flex mb-0 d-block"><a href="#" class="btn btn-black btn-outline-black mr-1">Book now</a> <a href="#" class="btn btn-black btn-outline-black ml-1">Details</a></p>-->
+<!--    					</div>-->
+<!--    				</div>-->
+<!--    			</div>-->
+<!--    			<div class="col-md-3">-->
+<!--    				<div class="car-wrap ftco-animate">-->
+<!--    					<div class="img d-flex align-items-end" style="background-image: url(images/car-4.jpg);">-->
+<!--    						<div class="price-wrap d-flex">-->
+<!--    							<span class="rate">$25</span>-->
+<!--    							<p class="from-day">-->
+<!--    								<span>From</span>-->
+<!--    								<span>/Day</span>-->
+<!--    							</p>-->
+<!--    						</div>-->
+<!--    					</div>-->
+<!--    					<div class="text p-4 text-center">-->
+<!--    						<h2 class="mb-0"><a href="#">Mercedes Grand Sedan</a></h2>-->
+<!--    						<span>Mercedes</span>-->
+<!--    						<p class="d-flex mb-0 d-block"><a href="#" class="btn btn-black btn-outline-black mr-1">Book now</a> <a href="#" class="btn btn-black btn-outline-black ml-1">Details</a></p>-->
+<!--    					</div>-->
+<!--    				</div>-->
+<!--    			</div>-->
+
+<!--    			<div class="col-md-3">-->
+<!--    				<div class="car-wrap ftco-animate">-->
+<!--    					<div class="img d-flex align-items-end" style="background-image: url(images/car-5.jpg);">-->
+<!--    						<div class="price-wrap d-flex">-->
+<!--    							<span class="rate">$25</span>-->
+<!--    							<p class="from-day">-->
+<!--    								<span>From</span>-->
+<!--    								<span>/Day</span>-->
+<!--    							</p>-->
+<!--    						</div>-->
+<!--    					</div>-->
+<!--    					<div class="text p-4 text-center">-->
+<!--    						<h2 class="mb-0"><a href="#">Mercedes Grand Sedan</a></h2>-->
+<!--    						<span>Audi</span>-->
+<!--    						<p class="d-flex mb-0 d-block"><a href="#" class="btn btn-black btn-outline-black mr-1">Book now</a> <a href="#" class="btn btn-black btn-outline-black ml-1">Details</a></p>-->
+<!--    					</div>-->
+<!--    				</div>-->
+<!--    			</div>-->
+<!--    			<div class="col-md-3">-->
+<!--    				<div class="car-wrap ftco-animate">-->
+<!--    					<div class="img d-flex align-items-end" style="background-image: url(images/car-6.jpg);">-->
+<!--    						<div class="price-wrap d-flex">-->
+<!--    							<span class="rate">$25</span>-->
+<!--    							<p class="from-day">-->
+<!--    								<span>From</span>-->
+<!--    								<span>/Day</span>-->
+<!--    							</p>-->
+<!--    						</div>-->
+<!--    					</div>-->
+<!--    					<div class="text p-4 text-center">-->
+<!--    						<h2 class="mb-0"><a href="#">Mercedes Grand Sedan</a></h2>-->
+<!--    						<span>Ford</span>-->
+<!--    						<p class="d-flex mb-0 d-block"><a href="#" class="btn btn-black btn-outline-black mr-1">Book now</a> <a href="#" class="btn btn-black btn-outline-black ml-1">Details</a></p>-->
+<!--    					</div>-->
+<!--    				</div>-->
+<!--    			</div>-->
+<!--    			<div class="col-md-3">-->
+<!--    				<div class="car-wrap ftco-animate">-->
+<!--    					<div class="img d-flex align-items-end" style="background-image: url(images/car-7.jpg);">-->
+<!--    						<div class="price-wrap d-flex">-->
+<!--    							<span class="rate">$25</span>-->
+<!--    							<p class="from-day">-->
+<!--    								<span>From</span>-->
+<!--    								<span>/Day</span>-->
+<!--    							</p>-->
+<!--    						</div>-->
+<!--    					</div>-->
+<!--    					<div class="text p-4 text-center">-->
+<!--    						<h2 class="mb-0"><a href="#">Mercedes Grand Sedan</a></h2>-->
+<!--    						<span>Cheverolet</span>-->
+<!--    						<p class="d-flex mb-0 d-block"><a href="#" class="btn btn-black btn-outline-black mr-1">Book now</a> <a href="#" class="btn btn-black btn-outline-black ml-1">Details</a></p>-->
+<!--    					</div>-->
+<!--    				</div>-->
+<!--    			</div>-->
+<!--    			<div class="col-md-3">-->
+<!--    				<div class="car-wrap ftco-animate">-->
+<!--    					<div class="img d-flex align-items-end" style="background-image: url(images/car-8.jpg);">-->
+<!--    						<div class="price-wrap d-flex">-->
+<!--    							<span class="rate">$25</span>-->
+<!--    							<p class="from-day">-->
+<!--    								<span>From</span>-->
+<!--    								<span>/Day</span>-->
+<!--    							</p>-->
+<!--    						</div>-->
+<!--    					</div>-->
+<!--    					<div class="text p-4 text-center">-->
+<!--    						<h2 class="mb-0"><a href="#">Mercedes Grand Sedan</a></h2>-->
+<!--    						<span>Mercedes</span>-->
+<!--    						<p class="d-flex mb-0 d-block"><a href="#" class="btn btn-black btn-outline-black mr-1">Book now</a> <a href="#" class="btn btn-black btn-outline-black ml-1">Details</a></p>-->
+<!--    					</div>-->
+<!--    				</div>-->
+<!--    			</div>-->
+<!--    		</div>-->
+<!--    	</div>-->
+<!--    </section>-->
+<!---->
+    <footer class="ftco-footer ftco-bg-dark ftco-section">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4">
+              <h2 class="ftco-heading-2">About GET ME HELP</h2>
+              <p>The GET ME HELP aims to provide immediate and efficient roadside support to drivers encountering vehicle malfunctions or emergencies, ensuring timely assistance and enhancing road safety.</p>
+<!--              <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">-->
+<!--                <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>-->
+<!--                <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>-->
+<!--                <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>-->
+<!--              </ul>-->
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4 ml-md-5">
+              <h2 class="ftco-heading-2">Information</h2>
+              <ul class="list-unstyled">
+                <li><a href="{%url 'aboutus'%}" class="py-2 d-block">About</a></li>
+                <li><a href="{%url 'service_page'%}" class="">Services</a></li>
+                <li><a href="{%url 'term_condition' %}" class="py-2 d-block">Term and Conditions</a></li>
+<!--                <li><a href="#" class="py-2 d-block">Best Price Guarantee</a></li>-->
+<!--                <li><a href="#" class="py-2 d-block">Privacy &amp; Cookies Policy</a></li>-->
+              </ul>
+            </div>
+          </div>
+
+                      <div class="col-md">
+            <div class="ftco-footer-widget mb-4 ml-md-5">
+               <h2 class="ftco-heading-2">Customer Support</h2>
+              <ul class="list-unstyled">
+<!--                <li><a href="{%url 'faq_view' %}" class="py-2 d-block">FAQ</a></li>-->
+<!--                <li><a href="#" class="py-2 d-block">Payment Option</a></li>-->
+<!--                <li><a href="#" class="py-2 d-block">Booking Tips</a></li>-->
+                <li><a href="{%url 'how_it_works'%}" class="py-2 d-block">How it works</a></li>
+                <li><a href="{%url 'send_feedback'%}" class="py-2 d-block">Contact Us</a></li>
+              </ul>
+            </div>
+          </div>
+<div class="col-md" >
+             <div class="ftco-footer-widget mb-4 ml-md-5">
+              <h2 class="ftco-heading-2">Have a Questions?</h2>
+            	<div class="block-23 mb-3">
+	              <ul>
+	                <li><span class="icon icon-map-marker"></span><span class="text">Kallar, Rajapuram, Kasaragod, Kerala</span></li>
+	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+91 8139808271</span></a></li>
+	                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@orvba.com</span></a></li>
+	              </ul>
+	            </div>
+            </div>
+          </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+
+            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->ADMIN <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="#" target="_blank">GET ME HELP</a>
+  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+ <script src="{% static 'user/js/jquery.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery-migrate-3.0.1.min.js' %}"></script>
+  <script src="{% static 'user/js/popper.min.js' %}"></script>
+  <script src="{% static 'user/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery.easing.1.3.js' %}"></script>
+  <script src="{% static 'user/js/jquery.waypoints.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery.stellar.min.js' %}"></script>
+  <script src="{% static 'user/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'user/js/jquery.magnific-popup.min.js' %}"></script>
+  <script src="{% static 'user/js/aos.js' %}"></script>
+  <script src="{% static 'user/js/jquery.animateNumber.min.js' %}"></script>
+  <script src="{% static 'user/js/bootstrap-datepicker.js' %}"></script>
+  <script src="{% static 'user/js/jquery.timepicker.min.js' %}"></script>
+  <script src="{% static 'user/js/scrollax.min.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+  <script src="{% static 'user/js/google-map.js' %}"></script>
+  <script src="{% static 'user/js/main.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $("#qty").change(function(){
+            x=document.getElementById("qty").value;
+            y=document.getElementById("price").value;
+            result=x*y
+            document.getElementById("total").value=result;
+        })
+    })
+</script>
+  </body>
+</html>
