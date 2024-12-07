@@ -7,5 +7,4 @@ razorpay
 geopy
 folium
 geocoder
-time
-requests
+
