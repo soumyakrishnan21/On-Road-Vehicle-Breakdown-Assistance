@@ -325,8 +325,8 @@ def delete_product(request,pid):
 #
 #     return render(request, 'request_status_counts.html', context)
 
-import matplotlib.pyplot as plt
-import numpy as np
+# import matplotlib.pyplot as plt
+# import numpy as np
 
 def mechanics_stats(request):
     accepted_count = Mechanics.objects.filter(status='accepted').count()
