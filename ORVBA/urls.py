@@ -22,7 +22,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns,static
 from ORVBA import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('Webapp/',include(Webapp.urls)),
+    path('',include(Webapp.urls)),
     path('Backend/',include(Backend.urls)),
     # path('accounts/', include('django.contrib.auth.urls')),  # Add this back if needed
 
