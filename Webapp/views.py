@@ -1,6 +1,6 @@
 import math
 
-import app
+# import app
 import pytz
 import razorpay
 from django.contrib.auth import authenticate, login
