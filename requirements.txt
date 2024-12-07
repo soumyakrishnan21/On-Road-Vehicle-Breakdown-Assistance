@@ -4,3 +4,8 @@ channels==3.0.0
 celery==5.4.0
 app
 razorpay
+geopy
+folium
+geocoder
+time
+requests
