@@ -83,6 +83,7 @@ def indexpage(request):
         print(f"Longitude: {longitude}")
     else:
         print("Unable to retrieve your GPS coordinates.")
+        messages.warning(request,"Unable to retrieve your GPS coordinates.")
     geolocator = Nominatim(user_agent="location_app")
     location = geolocator.reverse((latitude, longitude), language='en')
     print(location)
