@@ -2,3 +2,5 @@ gunicorn
 Django>=3.2,<4.0
 channels==3.0.0  
 celery==5.4.0
+app
+razorpay
