@@ -7,4 +7,5 @@ razorpay
 geopy
 folium
 geocoder
+jwt
 
